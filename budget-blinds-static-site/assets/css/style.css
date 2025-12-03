@@ -1112,11 +1112,12 @@ img {
   }
   
   .hero-process__image {
-    height: 540px;
-    min-height: 540px;
+    height: 500px;
+    min-height: 0;
     position: absolute;
     top: 0;
     left: 0;
+    bottom: 0;
   }
   
   .hero-process__container {
