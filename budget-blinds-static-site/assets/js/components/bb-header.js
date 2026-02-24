@@ -249,7 +249,7 @@ class BBHeader extends HTMLElement {
       { text: 'Motorization', href: '#motorization' },
       { text: 'Outdoor', href: '#outdoor' },
       { text: 'All Products', href: '#products' },
-      { text: 'About Us', href: 'process.html' }
+      { text: 'About Us', href: '#' }
     ];
   }
   
