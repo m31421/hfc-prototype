@@ -7,6 +7,12 @@
   <meta name="description" content="Experience the convenience of motorized window shades. Smart home enabled with one-touch remotes, app controls, and scheduling.">
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <!-- Load header so it works when opened via file:// (ES modules may not load) -->
+  <script src="assets/js/components/bb-header.js"></script>
+  <!-- Feature hero accordion (standalone so it works via file://) -->
+  <script src="assets/js/feature-accordion-hero-standalone.js"></script>
+  <!-- Features include rotator (standalone so it works via file://) -->
+  <script src="assets/js/features-include-standalone.js"></script>
 </head>
 <body>
   
@@ -21,13 +27,13 @@
     franchise-href="#franchise">
     <nav-items>
       <a href="#blinds">Blinds</a>
-      <a href="#shades">Shades</a>
+      <a href="index.html">Shades</a>
       <a href="#shutters">Shutters</a>
       <a href="#drapes">Drapes</a>
       <a href="#motorization">Motorization</a>
       <a href="#outdoor">Outdoor</a>
       <a href="#products">All Products</a>
-      <a href="#about">About Us</a>
+      <a href="process.html">About Us</a>
     </nav-items>
   </bb-header>
 
@@ -48,23 +54,22 @@
             </ol>
           </nav>
           <h1>Motorized<br>Window Shades</h1>
-          <p>With Budget Blinds motorized shades make light control effortless. Our shades bring style, convenience, and smart technology to your home, even on hard-to-reach windows.</p>
+          <p>With Budget Blinds, motorized shades make light control effortless. Our shades bring style, convenience, and smart technology to your home, even on hard-to-reach windows.</p>
           <a href="#consultation" class="btn">
             Request a Free Consultation
             <img src="assets/images/Icons-rightarrow-carat.svg" alt="" class="btn__icon">
           </a>
         </div>
-        <div class="hero__video">
-          <video 
-            autoplay 
-            muted 
-            loop 
+        <div class="hero__media">
+          <video
+            class="hero__video"
+            autoplay
+            muted
+            loop
             playsinline
-            poster="assets/images/hero-poster.jpg"
+            poster="assets/images/benefits-new01-02.webp"
             aria-label="Motorized window shades demonstration video">
             <source src="assets/videos/shades-hero-video.mp4" type="video/mp4">
-            <!-- Fallback image for browsers that don't support video -->
-            <img src="assets/images/hero.jpg" alt="Modern living room with motorized window shades controlled by smartphone">
           </video>
         </div>
       </div>
@@ -253,6 +258,7 @@
             muted 
             loop 
             playsinline
+            poster="assets/images/img-2.png"
             aria-label="Motorized shades demonstration video">
             <source src="assets/videos/shades-hero-video.mp4" type="video/mp4">
           </video>
@@ -291,7 +297,7 @@
           <p>Whether you're waking up in the morning or settling in for movie night, your shades respond to your lifestyle automatically.</p>
         </div>
         <div class="feature-section__image">
-          <img src="assets/images/smart-home-1.jpg" alt="Woman using voice control to adjust motorized shades">
+          <img src="assets/images/benefits-new01-02.webp" alt="Woman using voice control to adjust motorized shades">
         </div>
       </div>
       
@@ -304,7 +310,7 @@
           <p>Set schedules that match your routine, create custom scenes for different times of day, and monitor your home's energy efficiency with real-time insights.</p>
         </div>
         <div class="feature-section__image">
-          <img src="assets/images/smart-home-2.jpg" alt="Budget Blinds mobile app interface showing shade controls">
+          <img src="assets/images/img-2.png" alt="Budget Blinds mobile app interface showing shade controls">
         </div>
       </div>
       
@@ -317,7 +323,7 @@
           <p>Advanced sensors can even respond to sunlight and temperature, optimizing your home's comfort and energy efficiency without you lifting a finger.</p>
         </div>
         <div class="feature-section__image">
-          <img src="assets/images/smart-home-3.jpg" alt="Automated shades adjusting to morning sunlight">
+          <img src="assets/images/img-3.png" alt="Automated shades adjusting to morning sunlight">
         </div>
       </div>
     </div>

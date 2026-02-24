@@ -7,6 +7,7 @@
   <meta name="description" content="Learn about Budget Blinds' simple, straightforward process for getting custom window treatments. From consultation to installation, we make it easy.">
   <link rel="stylesheet" href="assets/css/variables.css">
   <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/components/bb-header.js"></script>
 </head>
 <body>
   
@@ -73,7 +74,7 @@
                 aria-required="true"
                 aria-label="Zip/Postal Code">
             </div>
-            <button type="submit" class="hero-process__form-button">Get Started</button>
+            <button type="submit" class="btn btn--full">Get Started</button>
           </form>
           
           <div class="hero-process__form-disclaimer">
@@ -84,7 +85,10 @@
           
           <div class="hero-process__form-warranty">
             <img src="assets/images/process/sheild.png" alt="" class="hero-process__form-warranty-icon">
-            <span>Most Products Backed by<br> Our No-Questions-Asked Warranty</span>
+            <div class="hero-process__form-warranty-text">
+              <span>Most Products Backed by Our</span>
+              <span class="hero-process__form-warranty-underline">No-Questions-Asked Warranty</span>
+            </div>
           </div>
         </div>
       </div>
@@ -111,55 +115,35 @@
           
           <ul class="our-process__list">
             <li class="our-process__list-item">
-              <div class="our-process__item-wrapper">
-                <div class="our-process__number">01</div>
-                <div class="our-process__item-content">
-                  <button class="our-process__item active" data-feature="1" aria-expanded="true">
-                    Book a Free Consultation
-                  </button>
-                  <div class="our-process__item-description open">
-                    <p>Getting started is simple. You'll schedule a complimentary in-person or virtual consultation at a time that fits best in your schedule. Unlike buying online, you'll have a real design expert focused on your space, not a one-size-fits-all solution.</p>
-                  </div>
-                </div>
+              <button class="our-process__item active" data-feature="1" aria-expanded="true">
+                Book a Free Consultation
+              </button>
+              <div class="our-process__item-description open">
+                <p>Getting started is simple. You'll schedule a complimentary in-person or virtual consultation at a time that fits best in your schedule. Unlike buying online, you'll have a real design expert focused on your space, not a one-size-fits-all solution.</p>
               </div>
             </li>
             <li class="our-process__list-item">
-              <div class="our-process__item-wrapper">
-                <div class="our-process__number">02</div>
-                <div class="our-process__item-content">
-                  <button class="our-process__item" data-feature="2" aria-expanded="false">
-                    Personalized In-Home Experience
-                  </button>
-                  <div class="our-process__item-description">
-                    <p>Our design consultant comes to you, taking time to understand your style and needs. We'll walk through the window treatments best suited for your home and present tailored options that fit your preferences.</p>
-                  </div>
-                </div>
+              <button class="our-process__item" data-feature="2" aria-expanded="false">
+                Personalized In-Home Experience
+              </button>
+              <div class="our-process__item-description">
+                <p>Our design consultant comes to you, taking time to understand your style and needs. We'll walk through the window treatments best suited for your home and present tailored options that fit your preferences.</p>
               </div>
             </li>
             <li class="our-process__list-item">
-              <div class="our-process__item-wrapper">
-                <div class="our-process__number">03</div>
-                <div class="our-process__item-content">
-                  <button class="our-process__item" data-feature="3" aria-expanded="false">
-                    Design, Measure and Quote
-                  </button>
-                  <div class="our-process__item-description">
-                    <p>Together, we'll finalize your selections so you feel confident in your decision. Then we'll take precise measurements and provide a detailed, upfront quote for your custom window treatments.</p>
-                  </div>
-                </div>
+              <button class="our-process__item" data-feature="3" aria-expanded="false">
+                Design, Measure and Quote
+              </button>
+              <div class="our-process__item-description">
+                <p>Together, we'll finalize your selections so you feel confident in your decision. Then we'll take precise measurements and provide a detailed, upfront quote for your custom window treatments.</p>
               </div>
             </li>
             <li class="our-process__list-item">
-              <div class="our-process__item-wrapper">
-                <div class="our-process__number">04</div>
-                <div class="our-process__item-content">
-                  <button class="our-process__item" data-feature="4" aria-expanded="false">
-                    Installation & Support
-                  </button>
-                  <div class="our-process__item-description">
-                    <p>Your beautiful new upgrades happen with no stress. Sit back while our professionals handle expert installation. We'll walk you through operation and care, and your local team is always a call away if you need support later.</p>
-                  </div>
-                </div>
+              <button class="our-process__item" data-feature="4" aria-expanded="false">
+                Installation & Support
+              </button>
+              <div class="our-process__item-description">
+                <p>Your beautiful new upgrades happen with no stress. Sit back while our professionals handle expert installation. We'll walk you through operation and care, and your local team is always a call away if you need support later.</p>
               </div>
             </li>
           </ul>
@@ -188,6 +172,12 @@
       </div>
     </div>
   </section>
+
+  <!-- Text Section -->
+  <bb-text-section 
+    title="Simple Steps to Beautiful Windows"
+    content="Our proven process ensures you get the perfect window treatments for your home, with expert guidance every step of the way.">
+  </bb-text-section>
 
   <!-- Reviews and Testimonials Section -->
   <section class="reviews-section">
@@ -263,6 +253,42 @@
             <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- What Sets Us Apart Section -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>What Sets Us Apart</h2>
+        <p>We're more than just window treatments—we're your partner in creating the perfect home.</p>
+      </div>
+      
+      <div class="grid" style="--grid-columns: 1; --grid-columns-md: 3; --grid-columns-lg: 3;">
+        <bb-card 
+          image="assets/images/apart-1.jpg" 
+          image-alt="Expert consultant showing fabric samples to homeowner"
+          title="Expert Consultation"
+          description="Our Style Consultants bring the showroom to you with thousands of samples and personalized design advice tailored to your unique space."
+          show-button="false">
+        </bb-card>
+        
+        <bb-card 
+          image="assets/images/apart-2.jpg" 
+          image-alt="Custom motorized shade being professionally installed"
+          title="Custom Solutions"
+          description="Every shade is custom-made to your exact specifications. We measure twice and install once, ensuring perfect fit and flawless operation."
+          show-button="false">
+        </bb-card>
+        
+        <bb-card 
+          image="assets/images/apart-3.jpg" 
+          image-alt="Lifetime warranty certificate and support documentation"
+          title="Lifetime Guarantee"
+          description="We stand behind our products with an industry-leading lifetime guarantee on materials and workmanship. Your investment is protected."
+          show-button="false">
+        </bb-card>
       </div>
     </div>
   </section>

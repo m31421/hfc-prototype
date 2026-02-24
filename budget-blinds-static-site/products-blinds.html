@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blinds | Budget Blinds</title>
+  <meta name="description" content="Explore Budget Blinds' selection of window blinds. Style and service for every budget.">
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script src="assets/js/components/bb-header.js"></script>
+  <!-- Lifestyle gallery module: self-contained styles -->
+  <style>
+    /* ===== LIFESTYLE GALLERY MODULE ===== */
+    .lifestyle-gallery {
+      padding: var(--space-12, 3rem) 0;
+      overflow-x: hidden;
+      position: relative;
+      z-index: 10;
+    }
+    .lifestyle-gallery .container { width: 100%; max-width: 1800px; margin: 0 auto; }
+    .lifestyle-gallery__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: var(--h2-size);
+      font-weight: 400;
+      color: var(--color-headline, var(--utility-grey-800));
+      text-align: center;
+      margin: 0 0 1.5rem;
+      line-height: var(--lh-tight);
+    }
+    .lifestyle-gallery__wrap {
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      max-width: 100vw;
+    }
+    /* Main image area: full bleed, 16:9; thumbnails overlay bottom */
+    .lifestyle-gallery__main {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 2 / 1;
+      overflow: hidden;
+    }
+    .lifestyle-gallery__main-inner {
+      position: absolute;
+      inset: 0;
+    }
+    .lifestyle-gallery__main-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 1;
+      transition: opacity 0.35s ease;
+    }
+    .lifestyle-gallery__main-img.is-fading { opacity: 0; }
+    .lifestyle-gallery__hotspots {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .lifestyle-gallery__hotspots .lifestyle-gallery__hotspot { pointer-events: auto; }
+    /* Thumbnail rail: overlaid bottom-left of main image */
+    .lifestyle-gallery__rail {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      min-width: 100%;
+      z-index: 3;
+      display: flex;
+      flex-direction: row;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem 1.25rem 1.5rem;
+      background: linear-gradient(to top, rgba(255,255,255,0.15), transparent);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .lifestyle-gallery__thumb {
+      display: block;
+      height: 72px;
+      width: auto;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .lifestyle-gallery__thumb-btn.is-active .lifestyle-gallery__thumb,
+    .lifestyle-gallery__thumb.is-active {
+      border-color: #fff;
+    }
+    .lifestyle-gallery__thumb-btn {
+      padding: 0;
+      border: none;
+      background: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      overflow: hidden;
+      touch-action: manipulation;
+    }
+    /* Hotspot dot: white circle with pulse; transform-centering keeps 1:1 on mobile */
+    .lifestyle-gallery__hotspot {
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      min-height: 16px;
+      aspect-ratio: 1;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 0px 3px 8px 2px rgb(0 0 0 / 20%);
+      z-index: 2;
+      box-sizing: border-box;
+      touch-action: manipulation;
+    }
+    .lifestyle-gallery__hotspot::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      box-sizing: border-box;
+      border: 2px solid rgba(255,255,255,0.8);
+      animation: lifestyle-gallery-pulse 2s ease-out infinite;
+      pointer-events: none;
+    }
+    @keyframes lifestyle-gallery-pulse {
+      0% { transform: scale(0.8); opacity: 1; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .lifestyle-gallery__hotspot:hover { box-shadow: 0px 3px 8px 2px rgb(0 0 0 / 20%), 0 0 0 6px rgba(255,255,255,0.4); }
+    /* Popover card */
+    .lifestyle-gallery__popover {
+      position: absolute;
+      z-index: 10;
+      min-width: 200px;
+      max-width: 260px;
+      padding: 1rem 1.25rem;
+      background: #fff;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+      opacity: 0;
+      transform: translateY(8px);
+      pointer-events: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .lifestyle-gallery__popover.is-open {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      border-radius: 8px;
+    }
+    .lifestyle-gallery__popover-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--color-body);
+      margin: 0 0 0.5rem;
+      line-height: 1.3;
+    }
+    .lifestyle-gallery__popover-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--color-body-muted);
+      margin: 0.5rem 0 0.15rem;
+    }
+    .lifestyle-gallery__popover-value { font-size: 0.875rem; color: var(--color-body); margin: 0; }
+    .lifestyle-gallery__popover-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin-top: 0.75rem;
+    }
+   
+    /* Mobile: thumbnails below main image */
+    @media (max-width: 1029px) {
+      .lifestyle-gallery {
+        padding-bottom: var(--space-6, 1.5rem);
+      }
+      /* Avoid 100vw horizontal overflow (scrollbar); keep full-bleed using container-relative math */
+      .lifestyle-gallery__wrap {
+        width: calc(100% + 2 * var(--page-margin, 1rem));
+        max-width: 100vw;
+        margin-left: calc(-1 * var(--page-margin, 1rem));
+        margin-right: calc(-1 * var(--page-margin, 1rem));
+      }
+      .lifestyle-gallery__main {
+        display: flex;
+        flex-direction: column;
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        min-height: 0;
+      }
+      .lifestyle-gallery__main-inner {
+        position: relative;
+        flex: 1 1 0;
+        width: 100%;
+        min-height: 0;
+        inset: auto;
+      }
+      .lifestyle-gallery__main-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .lifestyle-gallery__rail {
+        position: static;
+        flex-shrink: 0;
+        background: transparent;
+        padding: 0.75rem;
+        gap: 0.5rem;
+      }
+      .lifestyle-gallery__title { margin-bottom: 1rem; font-size: var(--h2-size); padding-left: var(--page-margin, 1rem); padding-right: var(--page-margin, 1rem); }
+      .lifestyle-gallery__thumb { height: 80px; }
+      .lifestyle-gallery__hotspot {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
+      }
+      .lifestyle-gallery__hotspot::before {
+        inset: 3px;
+      }
+      .lifestyle-gallery__popover { min-width: 180px; max-width: 220px; padding: 0.75rem 1rem; }
+      .lifestyle-gallery__popover-title { font-size: 0.9rem; }
+      .lifestyle-gallery__popover-value { font-size: 0.8125rem; }
+      .lifestyle-gallery__popover-cta { margin-top: 0.5rem; }
+    }
+  </style>
+  <!-- Pricing module: Window Blinds for Every Budget -->
+  <style>
+    .pricing-module {
+      background: #fff;
+      padding: clamp(3rem, 6vw, 5rem) var(--page-margin, 1.5rem);
+      margin: 0 auto;
+      max-width: 1100px;
+      position: relative;
+      z-index: 0;
+    }
+    .pricing-module__inner { max-width: 1100px; margin: 0 auto; }
+    .pricing-module__heading { text-align: center; margin-bottom: 2rem; }
+    .pricing-module__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      color: var(--color-headline, var(--utility-grey-800));
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+    .pricing-module__intro {
+      font-size: 1.1rem;
+      color: var(--color-body);
+      font-weight: 400;
+      margin: 0 0 0.5rem;
+      line-height: 1.5;
+    }
+    .pricing-module__disclaimer {
+      font-size: 1.1rem;
+      color: var(--color-body);
+      margin: 0;
+      padding-bottom: var(--space-4, 1rem);
+      line-height: 1.5;
+    }
+    .pricing-module__cards-wrap { margin-top: 2rem; }
+    .pricing-module__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .pricing-module__card-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .pricing-module__card-wrap.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pricing-module__card-wrap:nth-child(1) { transition-delay: 0s; }
+    .pricing-module__card-wrap:nth-child(2) { transition-delay: 0.15s; }
+    .pricing-module__card-wrap:nth-child(3) { transition-delay: 0.3s; }
+    @media (prefers-reduced-motion: reduce) {
+      .pricing-module__card-wrap {
+        transform: none;
+        transition: opacity 0.1s ease-out;
+        transition-delay: 0s;
+      }
+      .pricing-module__card-wrap.is-visible { transform: none; }
+      .pricing-module__heading-wrap {
+        transform: none;
+        transition: opacity 0.1s ease-out;
+      }
+      .pricing-module__heading-wrap.is-visible,
+      .pricing-module__cta-wrap.is-visible { transform: none; }
+      .pricing-module__cta-wrap { transition: opacity 0.1s ease-out; transition-delay: 0s; }
+    }
+    .pricing-module__tier-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-body);
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+    .pricing-module__card {
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .pricing-module__card-wrap:nth-child(1) .pricing-module__card { background: var(--pricing-card-bg-1); }
+    .pricing-module__card-wrap:nth-child(2) .pricing-module__card { background: var(--pricing-card-bg-2); }
+    .pricing-module__card-wrap:nth-child(3) .pricing-module__card { background: var(--pricing-card-bg-3); }
+    .pricing-module__card-starting {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-body);
+      margin: 0 0 0.5rem;
+    }
+    .pricing-module__card-price {
+      font-family: var(--font-display);
+      font-size: var(--h2-size);
+      font-weight: var(--weight-bold);
+      line-height: var(--lh-tight);
+      color: var(--utility-grey-800);
+      margin: 0 0 1rem;
+    }
+    .pricing-module__card-desc {
+      font-size: 0.95rem;
+      color: var(--color-body);
+      margin: 0;
+      line-height: 1.6;
+    }
+    .pricing-module__cta-wrap {
+      text-align: center;
+      margin-top: 2.5rem;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      transition-delay: 0.45s;
+    }
+    .pricing-module__cta-wrap.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pricing-module__cta-wrap {
+        transform: none;
+        transition: opacity 0.1s ease-out;
+        transition-delay: 0s;
+      }
+    }
+    .pricing-module__heading-wrap {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .pricing-module__heading-wrap.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pricing-module__cta { text-decoration: none; }
+    /* Comparison table: subtle fade-in when in view */
+    .comparison[data-animate-block] {
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .comparison[data-animate-block].is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .comparison[data-animate-block] {
+        transform: none;
+        transition: opacity 0.15s ease-out;
+      }
+      .comparison[data-animate-block].is-visible { transform: none; }
+    }
+    @media (min-width: 1030px) {
+      .pricing-module__grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (min-width: 1030px) and (max-width: 1200px) {
+      .pricing-module__grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .pricing-module__card-wrap:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 400px;
+        justify-self: center;
+      }
+      .pricing-module__card-wrap:nth-child(3) { transition-delay: 0.3s; }
+    }
+    @media (max-width: 1029px) {
+      .pricing-module__grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .pricing-module__card-wrap:nth-child(n) { transition-delay: 0s; }
+      .pricing-module__cta {
+        display: flex;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+        justify-content: center;
+        box-sizing: border-box;
+      }
+    }
+  </style>
+  <!-- Why Choose Us editorial module -->
+  <style>
+    .why-choose {
+      background: #fff;
+      padding: clamp(3rem, 6vw, 5rem) var(--page-margin, 1.5rem);
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    .why-choose__inner { max-width: 1200px; margin: 0 auto; }
+    .why-choose__heading-wrap {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+    }
+    .why-choose__heading-wrap.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+    .why-choose__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--color-headline, var(--utility-grey-800));
+      margin: 0 0 0.5rem;
+      line-height: 1.2;
+    }
+    .why-choose__intro {
+      font-size: 1.1rem;
+      color: var(--color-body);
+      margin: 0;
+      line-height: 1.5;
+      max-width: 640px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .why-choose__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      align-items: start;
+    }
+    .why-choose__col {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.55s ease-out, transform 0.55s ease-out;
+      text-align: left;
+    }
+    .why-choose__grid.is-visible .why-choose__col {
+      opacity: 1;
+      transform: none;
+    }
+    .why-choose__col:nth-child(1) { transition-delay: 0s; }
+    .why-choose__col:nth-child(2) { transition-delay: 0.12s; }
+    .why-choose__col:nth-child(3) { transition-delay: 0.24s; }
+    .why-choose__col:nth-child(4) { transition-delay: 0.36s; }
+    .why-choose__img-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 3.2;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #eee;
+    }
+    .why-choose__img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .why-choose__col-title,
+    .faq-accordion__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+    }
+    .why-choose__col-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-headline, var(--utility-grey-800));
+      margin: 1rem 0 0;
+      line-height: 1.3;
+    }
+    .why-choose__col-desc {
+      font-size: 0.95rem;
+      color: var(--color-body);
+      line-height: 1.65;
+      margin: 0.5rem 0 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .why-choose__heading-wrap,
+      .why-choose__col {
+        transform: none;
+        transition: opacity 0.15s ease-out;
+        transition-delay: 0s;
+      }
+      .why-choose__heading-wrap.is-visible,
+      .why-choose__grid.is-visible .why-choose__col { transform: none; }
+    }
+    @media (min-width: 1030px) {
+      .why-choose__grid { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (min-width: 1030px) and (max-width: 1200px) {
+      .why-choose__grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+      }
+    }
+    @media (max-width: 1029px) {
+      .why-choose__intro { margin-bottom: 1.5rem; }
+      .why-choose__grid {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 0.5rem;
+        margin-left: var(--page-margin, 1rem);
+        margin-right: calc(-1 * var(--page-margin, 1rem));
+        padding-left: var(--page-margin, 1rem);
+        padding-right: var(--page-margin, 1rem);
+      }
+      .why-choose__grid::-webkit-scrollbar { display: none; }
+      .why-choose__col {
+        flex: 0 0 85%;
+        min-width: 0;
+        scroll-snap-align: start;
+        scroll-snap-stop: always;
+      }
+      .why-choose__col:nth-child(n) { transition-delay: 0s; }
+      .why-choose__pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+      .why-choose__dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--utility-grey-400, #9CA3AF);
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        transition: width 0.2s ease, background 0.2s ease, border-radius 0.2s ease;
+        flex-shrink: 0;
+      }
+      .why-choose__dot.is-active {
+        width: 24px;
+        border-radius: 4px;
+        background: var(--color-headline, var(--utility-grey-800));
+      }
+    }
+    @media (min-width: 1030px) {
+      .why-choose__pagination { display: none; }
+    }
+  </style>
+  <!-- Feature hero intro: heading + description above accordion -->
+  <style>
+    .feature-hero-intro {
+      background: var(--color-bg-default, #fff);
+      padding: clamp(2.5rem, 5vw, 4rem) var(--page-margin, 1.5rem);
+      text-align: center;
+    }
+    .feature-hero-intro__inner {
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .feature-hero-intro__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--color-headline);
+      margin: 0 0 1rem;
+      line-height: var(--lh-tight);
+    }
+    .feature-hero-intro__desc {
+      font-family: var(--font-body);
+      font-size: var(--body-lg);
+      font-weight: var(--weight-normal);
+      color: var(--color-body);
+      margin: 0;
+      line-height: var(--lh-relaxed);
+    }
+    /* This page has 7 accordion items */
+    #feature-hero-blinds .feature-hero__accordion {
+      grid-template-rows: repeat(7, auto);
+    }
+  </style>
+</head>
+<body>
+  
+  <!-- Global Header / Nav -->
+  <bb-header 
+    logo="Budget Blinds" 
+    tagline="Style and service for every budget."
+    location="Strongsville"
+    phone="(440) 299-6241"
+    cta-text="Schedule a Consultation" 
+    cta-href="#consultation"
+    franchise-href="#franchise">
+    <nav-items>
+      <a href="products-blinds.html">Blinds</a>
+      <a href="index.html">Shades</a>
+      <a href="#shutters">Shutters</a>
+      <a href="#drapes">Drapes</a>
+      <a href="#motorization">Motorization</a>
+      <a href="#outdoor">Outdoor</a>
+      <a href="#products">All Products</a>
+      <a href="process.html">About Us</a>
+    </nav-items>
+  </bb-header>
+
+  <!-- Hero Process Section -->
+  <section class="hero-process hero-process--blinds">
+    <div class="hero-process__image">
+      <video class="hero-process__video" autoplay muted loop playsinline poster="assets/images/hero-product-blinds-desktop-2.png" aria-hidden="true">
+        <source src="assets/videos/blinds-hero-video.webm" type="video/webm">
+      </video>
+    </div>
+    <div class="container hero-process__container">
+      <div class="hero-process__inner">
+        <div class="hero-process__content">
+          <nav class="breadcrumb breadcrumb--overlay" aria-label="Breadcrumb">
+            <ol class="breadcrumb__list">
+              <li class="breadcrumb__item"><a href="index.html" class="breadcrumb__link">Home</a></li>
+              <li class="breadcrumb__separator" aria-hidden="true">></li>
+              <li class="breadcrumb__item"><a href="index.html#products" class="breadcrumb__link">Our Products</a></li>
+              <li class="breadcrumb__separator" aria-hidden="true">></li>
+              <li class="breadcrumb__item breadcrumb__item--current" aria-current="page">Blinds</li>
+            </ol>
+          </nav>
+          <h1 class="hero-process__title">Blinds</h1>
+          <p class="hero-process__description">Custom window blinds designed for your home bring together light control, privacy, and style, offering versatile options. Whether you choose wood, faux wood, vertical, or motorized styles, you'll be sure to find the perfect fit.</p>
+          <div class="hero-process__below-description">
+            <ul class="hero-process__list" aria-label="Key benefits">
+              <li class="hero-process__list-item">
+                <img src="assets/images/local-circle.svg" alt="" class="hero-process__list-icon" width="48" height="48">
+                <span>Free in-home or virtual consultation</span>
+              </li>
+              <li class="hero-process__list-item">
+                <img src="assets/images/warranty-circle.svg" alt="" class="hero-process__list-icon" width="48" height="48">
+                <span>No-questions-asked warranty</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hero-process__form-card">
+          <img src="assets/images/process/triangle.png" alt="" class="hero-process__form-triangle">
+          <h2 class="hero-process__form-title">REQUEST A FREE IN-HOME OR VIRTUAL* CONSULTATION</h2>
+          <p class="hero-process__form-description">Provide your contact information and we'll be in touch via phone, email or text to schedule your free window treatments consultation and more.</p>
+
+          <div class="hero-process__form-step">
+            <img src="assets/images/process/pencil-2.png" alt="" class="hero-process__form-step-icon">
+            <span>STEP 1 OF 4</span>
+          </div>
+
+          <form class="hero-process__form" aria-label="Consultation request form">
+            <div class="hero-process__form-group">
+              <input
+                type="text"
+                id="zip-code"
+                name="zip-code"
+                class="hero-process__form-input"
+                placeholder="Zip/Postal Code*"
+                pattern="[0-9]{5}"
+                required
+                aria-required="true"
+                aria-label="Zip/Postal Code">
+            </div>
+            <button type="submit" class="btn btn--full">Get Started</button>
+          </form>
+
+          <div class="hero-process__form-disclaimer">
+            <p>*Virtual consultations are not available at all locations.
+            By submitting this form, you agree to receive calls, text messages, or emails at the contact information provided. Message rates may apply. Text STOP to opt out at any time. All fields are required. Review our Privacy Policy</p>
+          </div>
+
+          <div class="hero-process__form-warranty">
+            <img src="assets/images/process/sheild.png" alt="" class="hero-process__form-warranty-icon">
+            <div class="hero-process__form-warranty-text">
+              <span>Most Products Backed by Our</span>
+              <span class="hero-process__form-warranty-underline">No-Questions-Asked Warranty</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Shop by Category Section -->
+  <section class="shop-category section" id="shop-by-category" aria-labelledby="shop-category-heading">
+    <div class="container">
+      <header class="shop-category__header">
+        <div class="shop-category__intro">
+          <h2 id="shop-category-heading" class="shop-category__title">Shop by Category</h2>
+          <p class="shop-category__description">Browse our most popular custom blinds, from door and window blinds to smart, motorized solutions designed to simplify everyday living.</p>
+        </div>
+        <div class="shop-category__toggles" role="group" aria-label="View size">
+          <button type="button" class="shop-category__toggle is-active" data-view="large" aria-pressed="true">
+            <svg class="shop-category__toggle-icon" width="18" height="18" viewBox="0 0 17 17" fill="none" aria-hidden="true"><path d="M7.08333 4.39167C7.08333 3.59826 7.08333 3.20156 6.92893 2.89851C6.79311 2.63195 6.57638 2.41523 6.30982 2.27941C6.00678 2.125 5.61007 2.125 4.81667 2.125L4.39167 2.125C3.59826 2.125 3.20156 2.125 2.89851 2.27941C2.63195 2.41523 2.41523 2.63195 2.27941 2.89851C2.125 3.20156 2.125 3.59826 2.125 4.39167L2.125 12.6083C2.125 13.4017 2.125 13.7984 2.27941 14.1015C2.41523 14.368 2.63195 14.5848 2.89851 14.7206C3.20155 14.875 3.59826 14.875 4.39167 14.875L4.81667 14.875C5.61007 14.875 6.00678 14.875 6.30982 14.7206C6.57638 14.5848 6.79311 14.368 6.92893 14.1015C7.08333 13.7984 7.08333 13.4017 7.08333 12.6083L7.08333 4.39167Z" fill="currentColor"/><path d="M14.875 4.39167C14.875 3.59826 14.875 3.20156 14.7206 2.89851C14.5848 2.63195 14.368 2.41523 14.1015 2.27941C13.7984 2.125 13.4017 2.125 12.6083 2.125L12.1833 2.125C11.3899 2.125 10.9932 2.125 10.6902 2.27941C10.4236 2.41523 10.2069 2.63195 10.0711 2.89851C9.91667 3.20156 9.91667 3.59826 9.91667 4.39167L9.91667 12.6083C9.91667 13.4017 9.91667 13.7984 10.0711 14.1015C10.2069 14.368 10.4236 14.5848 10.6902 14.7206C10.9932 14.875 11.3899 14.875 12.1833 14.875L12.6083 14.875C13.4017 14.875 13.7984 14.875 14.1015 14.7206C14.368 14.5848 14.5848 14.368 14.7206 14.1015C14.875 13.7984 14.875 13.4017 14.875 12.6083L14.875 4.39167Z" fill="currentColor"/><path d="M7.08333 4.39167C7.08333 3.59826 7.08333 3.20156 6.92893 2.89851C6.79311 2.63195 6.57638 2.41523 6.30982 2.27941C6.00678 2.125 5.61007 2.125 4.81667 2.125L4.39167 2.125C3.59826 2.125 3.20156 2.125 2.89851 2.27941C2.63195 2.41523 2.41523 2.63195 2.27941 2.89851C2.125 3.20156 2.125 3.59826 2.125 4.39167L2.125 12.6083C2.125 13.4017 2.125 13.7984 2.27941 14.1015C2.41523 14.368 2.63195 14.5848 2.89851 14.7206C3.20155 14.875 3.59826 14.875 4.39167 14.875L4.81667 14.875C5.61007 14.875 6.00678 14.875 6.30982 14.7206C6.57638 14.5848 6.79311 14.368 6.92893 14.1015C7.08333 13.7984 7.08333 13.4017 7.08333 12.6083L7.08333 4.39167Z" stroke="currentColor" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M14.875 4.39167C14.875 3.59826 14.875 3.20156 14.7206 2.89851C14.5848 2.63195 14.368 2.41523 14.1015 2.27941C13.7984 2.125 13.4017 2.125 12.6083 2.125L12.1833 2.125C11.3899 2.125 10.9932 2.125 10.6902 2.27941C10.4236 2.41523 10.2069 2.63195 10.0711 2.89851C9.91667 3.20156 9.91667 3.59826 9.91667 4.39167L9.91667 12.6083C9.91667 13.4017 9.91667 13.7984 10.0711 14.1015C10.2069 14.368 10.4236 14.5848 10.6902 14.7206C10.9932 14.875 11.3899 14.875 12.1833 14.875L12.6083 14.875C13.4017 14.875 13.7984 14.875 14.1015 14.7206C14.368 14.5848 14.5848 14.368 14.7206 14.1015C14.875 13.7984 14.875 13.4017 14.875 12.6083L14.875 4.39167Z" stroke="currentColor" stroke-width="1.41667" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            Large
+          </button>
+          <span class="shop-category__toggle-divider" aria-hidden="true"></span>
+          <button type="button" class="shop-category__toggle" data-view="small" aria-pressed="false">
+            <svg class="shop-category__toggle-icon" width="18" height="18" viewBox="0 0 17 17" fill="none" aria-hidden="true"><path d="M6.18737 1.5H3.2407C2.80642 1.5 2.58927 1.5 2.4234 1.58482C2.27749 1.65942 2.15886 1.77847 2.08452 1.92489C2 2.09135 2 2.30925 2 2.74507V5.70211C2 6.13793 2 6.35584 2.08452 6.52229C2.15886 6.66872 2.27749 6.78776 2.4234 6.86237C2.58927 6.94718 2.80642 6.94718 3.2407 6.94718H6.18737C6.62165 6.94718 6.8388 6.94718 7.00467 6.86237C7.15058 6.78776 7.26921 6.66872 7.34355 6.52229C7.42807 6.35584 7.42807 6.13793 7.42807 5.70211V2.74507C7.42807 2.30925 7.42807 2.09135 7.34355 1.92489C7.26921 1.77847 7.15058 1.65942 7.00467 1.58482C6.8388 1.5 6.62165 1.5 6.18737 1.5Z" fill="currentColor"/><path d="M13.7593 1.5H10.8126C10.3783 1.5 10.1612 1.5 9.99533 1.58482C9.84942 1.65942 9.73079 1.77847 9.65645 1.92489C9.57193 2.09135 9.57193 2.30925 9.57193 2.74507V5.70211C9.57193 6.13793 9.57193 6.35584 9.65645 6.52229C9.73079 6.66872 9.84942 6.78776 9.99533 6.86237C10.1612 6.94718 10.3783 6.94718 10.8126 6.94718H13.7593C14.1936 6.94718 14.4107 6.94718 14.5766 6.86237C14.7225 6.78776 14.8411 6.66872 14.9155 6.52229C15 6.35584 15 6.13793 15 5.70211V2.74507C15 2.30925 15 2.09135 14.9155 1.92489C14.8411 1.77847 14.7225 1.65942 14.5766 1.58482C14.4107 1.5 14.1936 1.5 13.7593 1.5Z" fill="currentColor"/><path d="M13.7137 9.05282H10.767C10.3327 9.05282 10.1156 9.05282 9.94971 9.13763C9.8038 9.21224 9.68518 9.33128 9.61083 9.4777C9.52632 9.64416 9.52632 9.86207 9.52632 10.2979V13.2549C9.52632 13.6907 9.52632 13.9087 9.61083 14.0751C9.68518 14.2215 9.8038 14.3406 9.94971 14.4152C10.1156 14.5 10.3327 14.5 10.767 14.5H13.7137C14.148 14.5 14.3651 14.5 14.531 14.4152C14.6769 14.3406 14.7955 14.2215 14.8699 14.0751C14.9544 13.9087 14.9544 13.6907 14.9544 13.2549V10.2979C14.9544 9.86207 14.9544 9.64416 14.8699 9.4777C14.7955 9.33128 14.6769 9.21224 14.531 9.13763C14.3651 9.05282 14.148 9.05282 13.7137 9.05282Z" fill="currentColor"/><path d="M6.18737 9.05282H3.2407C2.80642 9.05282 2.58927 9.05282 2.4234 9.13763C2.27749 9.21224 2.15886 9.33128 2.08452 9.4777C2 9.64416 2 9.86207 2 10.2979V13.2549C2 13.6907 2 13.9087 2.08452 14.0751C2.15886 14.2215 2.27749 14.3406 2.4234 14.4152C2.58927 14.5 2.80642 14.5 3.2407 14.5H6.18737C6.62165 14.5 6.8388 14.5 7.00467 14.4152C7.15058 14.3406 7.26921 14.2215 7.34355 14.0751C7.42807 13.9087 7.42807 13.6907 7.42807 13.2549V10.2979C7.42807 9.86207 7.42807 9.64416 7.34355 9.4777C7.26921 9.33128 7.15058 9.21224 7.00467 9.13763C6.8388 9.05282 6.62165 9.05282 6.18737 9.05282Z" fill="currentColor"/><path d="M6.18737 1.5H3.2407C2.80642 1.5 2.58927 1.5 2.4234 1.58482C2.27749 1.65942 2.15886 1.77847 2.08452 1.92489C2 2.09135 2 2.30925 2 2.74507V5.70211C2 6.13793 2 6.35584 2.08452 6.52229C2.15886 6.66872 2.27749 6.78776 2.4234 6.86237C2.58927 6.94718 2.80642 6.94718 3.2407 6.94718H6.18737C6.62165 6.94718 6.8388 6.94718 7.00467 6.86237C7.15058 6.78776 7.26921 6.66872 7.34355 6.52229C7.42807 6.35584 7.42807 6.13793 7.42807 5.70211V2.74507C7.42807 2.30925 7.42807 2.09135 7.34355 1.92489C7.26921 1.77847 7.15058 1.65942 7.00467 1.58482C6.8388 1.5 6.62165 1.5 6.18737 1.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M13.7593 1.5H10.8126C10.3783 1.5 10.1612 1.5 9.99533 1.58482C9.84942 1.65942 9.73079 1.77847 9.65645 1.92489C9.57193 2.09135 9.57193 2.30925 9.57193 2.74507V5.70211C9.57193 6.13793 9.57193 6.35584 9.65645 6.52229C9.73079 6.66872 9.84942 6.78776 9.99533 6.86237C10.1612 6.94718 10.3783 6.94718 10.8126 6.94718H13.7593C14.1936 6.94718 14.4107 6.94718 14.5766 6.86237C14.7225 6.78776 14.8411 6.66872 14.9155 6.52229C15 6.35584 15 6.13793 15 5.70211V2.74507C15 2.30925 15 2.09135 14.9155 1.92489C14.8411 1.77847 14.7225 1.65942 14.5766 1.58482C14.4107 1.5 14.1936 1.5 13.7593 1.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M13.7137 9.05282H10.767C10.3327 9.05282 10.1156 9.05282 9.94971 9.13763C9.8038 9.21224 9.68518 9.33128 9.61083 9.4777C9.52632 9.64416 9.52632 9.86207 9.52632 10.2979V13.2549C9.52632 13.6907 9.52632 13.9087 9.61083 14.0751C9.68518 14.2215 9.8038 14.3406 9.94971 14.4152C10.1156 14.5 10.3327 14.5 10.767 14.5H13.7137C14.148 14.5 14.3651 14.5 14.531 14.4152C14.6769 14.3406 14.7955 14.2215 14.8699 14.0751C14.9544 13.9087 14.9544 13.6907 14.9544 13.2549V10.2979C14.9544 9.86207 14.9544 9.64416 14.8699 9.4777C14.7955 9.33128 14.6769 9.21224 14.531 9.13763C14.3651 9.05282 14.148 9.05282 13.7137 9.05282Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6.18737 9.05282H3.2407C2.80642 9.05282 2.58927 9.05282 2.4234 9.13763C2.27749 9.21224 2.15886 9.33128 2.08452 9.4777C2 9.64416 2 9.86207 2 10.2979V13.2549C2 13.6907 2 13.9087 2.08452 14.0751C2.15886 14.2215 2.27749 14.3406 2.4234 14.4152C2.58927 14.5 2.80642 14.5 3.2407 14.5H6.18737C6.62165 14.5 6.8388 14.5 7.00467 14.4152C7.15058 14.3406 7.26921 14.2215 7.34355 14.0751C7.42807 13.9087 7.42807 13.6907 7.42807 13.2549V10.2979C7.42807 9.86207 7.42807 9.64416 7.34355 9.4777C7.26921 9.33128 7.15058 9.21224 7.00467 9.13763C6.8388 9.05282 6.62165 9.05282 6.18737 9.05282Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+            Small
+          </button>
+        </div>
+      </header>
+
+      <div class="shop-category__grid" data-view="large">
+        <a href="#wood" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/wood-blinds/woodblinds.png" alt="Wood blinds in a window" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/wood-blinds/woodblinds-1.png" alt="Wood blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/wood-blinds/woodblinds-2.png" alt="Wood blinds alternate view" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/wood-blinds/woodblinds-3.png" alt="Wood blinds" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Wood Blinds</h3>
+            <p class="shop-category__card-desc">Add classic warmth and beauty to your interior with our selection of natural wooden blinds.</p>
+          </div>
+        </a>
+        <a href="#faux-wood" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/faux-wood-blinds/fauxwood-01.png" alt="Faux wood blinds" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/faux-wood-blinds/fauxwood-2.png" alt="Faux wood blinds alternate" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/faux-wood-blinds/fauxwood-2png.png" alt="Faux wood blinds view 3" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Faux Wood Blinds</h3>
+            <p class="shop-category__card-desc">Get the look of wood with better durability and moisture resistance, ideal for kitchens and baths.</p>
+          </div>
+        </a>
+        <a href="#composite" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/composite-blinds/composite-1.png" alt="Composite blinds in a kitchen" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/composite-blinds/composite-2.png" alt="Composite blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/composite-blinds/composite-3.png" alt="Composite blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Composite Blinds</h3>
+            <p class="shop-category__card-desc">A blend of style and function that stands up to humidity and everyday wear.</p>
+          </div>
+        </a>
+        <a href="#aluminum" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/aluminum-blinds/alumnium-blinds.png" alt="Aluminum blinds" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/aluminum-blinds/aluminum-2.png" alt="Aluminum blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/aluminum-blinds/aluminum-3.png" alt="Aluminum blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Aluminum Blinds</h3>
+            <p class="shop-category__card-desc">Sleek, durable, and easy to clean—perfect for modern spaces and high-traffic areas.</p>
+          </div>
+        </a>
+        <a href="index.html#motorization" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/motorized-blinds/motorized-1.png" alt="Motorized blinds" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/motorized-blinds/motorized-blinds.png" alt="Motorized blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Motorized Blinds</h3>
+            <p class="shop-category__card-desc">Control light and privacy with the touch of a button or your smart home system.</p>
+          </div>
+        </a>
+        <a href="#vinyl" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/vinyl-blinds/vinyl-1.png" alt="Vinyl blinds" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/vinyl-blinds/vinyl-2.png" alt="Vinyl blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/vinyl-blinds/vinyl-3.png" alt="Vinyl blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Vinyl Blinds</h3>
+            <p class="shop-category__card-desc">Affordable, low-maintenance options in a variety of colors and styles.</p>
+          </div>
+        </a>
+        <a href="#vertical" class="shop-category__card shop-category__card--large card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/vertical-blinds/vertical-1.png" alt="Vertical blinds on a sliding door" loading="lazy" width="400" height="560">
+                <img src="assets/images/blinds/grid-images/vertical-blinds/vertical-2.png" alt="Vertical blinds view 2" loading="lazy" width="400" height="560">
+                <img src="assets/images/blinds/grid-images/vertical-blinds/vertical-3.png" alt="Vertical blinds alternate" loading="lazy" width="400" height="560">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Vertical Blinds</h3>
+            <p class="shop-category__card-desc">Ideal for sliding glass doors and wide windows, with easy light and privacy control.</p>
+          </div>
+        </a>
+        <div class="shop-category__consultation">
+          <div class="shop-category__consultation-inner">
+            <h3 class="shop-category__consultation-title">Get Started with a Free In Home Consultation</h3>
+            <p class="shop-category__consultation-text">Blandit faucibus amet nec laoreet quam ornare tincidunt nisl. Amet suspendisse feugiat.</p>
+            <a href="index.html#consultation" class="btn shop-category__consultation-btn">
+              Request a Free Consultation
+              <img src="assets/images/Icons-rightarrow-carat.svg" alt="" class="btn__icon">
+            </a>
+          </div>
+          <div class="shop-category__consultation-image">
+            <img src="assets/images/consultation.png" alt="Consultation with Budget Blinds specialist" width="400" height="400" loading="lazy">
+          </div>
+        </div>
+        <a href="#panel-track" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/panel-track-blinds/paneltrack-1.png" alt="Panel track blinds" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/panel-track-blinds/paneltrack-2.png" alt="Panel track blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/panel-track-blinds/paneltrack-3.png" alt="Panel track blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Panel Track Blinds</h3>
+            <p class="shop-category__card-desc">Soft fabric panels that glide smoothly for large windows and room dividers.</p>
+          </div>
+        </a>
+        <a href="#alternatives" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/vertical-blinds-alternatives/verticalalt-1.png" alt="Vertical blind alternatives" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/vertical-blinds-alternatives/verticalalt-2.png" alt="Vertical blind alternatives view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/vertical-blinds-alternatives/verticalalt-3.png" alt="Vertical blind alternatives alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Vertical Blinds Alternatives</h3>
+            <p class="shop-category__card-desc">Fabric and other alternatives for a softer look with the same great functionality.</p>
+          </div>
+        </a>
+        <a href="#door" class="shop-category__card card">
+          <div class="card__image shop-category__card-image">
+            <div class="shop-category__card-carousel">
+              <div class="shop-category__card-carousel-inner">
+                <img src="assets/images/blinds/grid-images/door-blinds/door-1.png" alt="Blinds on a door" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/door-blinds/door-2.png" alt="Door blinds view 2" loading="lazy" width="400" height="280">
+                <img src="assets/images/blinds/grid-images/door-blinds/door-3.png" alt="Door blinds alternate" loading="lazy" width="400" height="280">
+              </div>
+            </div>
+            <div class="shop-category__card-dots" role="tablist" aria-label="Image carousel"></div>
+          </div>
+          <div class="shop-category__card-content">
+            <h3 class="shop-category__card-title">Door Blinds</h3>
+            <p class="shop-category__card-desc">Solutions designed for doors and sidelights to match your windows.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Budget Blinds Difference (comparison) -->
+  <section class="comparison section" id="comparison" aria-labelledby="comparison-heading" data-animate-block>
+    <div class="container comparison__container">
+      <div class="comparison__intro">
+        <h2 id="comparison-heading" class="comparison__title">The Budget Blinds Difference</h2>
+        <a href="index.html#consultation" class="btn comparison__cta">
+          Request a Free Consultation
+          <img src="assets/images/Icons-rightarrow-carat.svg" alt="" class="btn__icon" width="15" height="15">
+        </a>
+      </div>
+      <div class="comparison__table-wrap">
+        <table class="comparison__table">
+          <thead>
+            <tr>
+              <th class="comparison__th comparison__th--feature" scope="col"><span class="comparison__blank">Feature</span></th>
+              <th class="comparison__th comparison__th--bb" scope="col">
+                <img src="assets/images/BB-logo.svg" alt="Budget Blinds" class="comparison__logo" width="140" height="40">
+                <span class="comparison__stars" aria-hidden="true">★★★★★</span>
+              </th>
+              <th class="comparison__th comparison__th--other" scope="col">Big Box Stores</th>
+              <th class="comparison__th comparison__th--other" scope="col">Online Retailers</th>
+            </tr>
+          </thead>
+          <tbody class="comparison__tbody">
+            <tr>
+              <td class="comparison__td comparison__td--feature">Style and Service for Every Budget</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Locally Owned, Nationally Backed</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Free Design Consultation</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature"><a href="#warranty" class="text-cta-link">No Questions Asked Warranty</a></td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Custom Solutions</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Convenient Full Service</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Direct Communication with Franchise Operator</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Expert In-Home Consultation</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/Check-grey.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+            <tr>
+              <td class="comparison__td comparison__td--feature">Great Reputation</td>
+              <td class="comparison__td comparison__td--bb"><img src="assets/images/Check-blue.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+              <td class="comparison__td comparison__td--other"><img src="assets/images/close-circle.svg" alt="" class="comparison__icon-img" width="24" height="24"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lifestyle gallery: See the Style Possibilities -->
+  <section class="lifestyle-gallery section" id="lifestyle-gallery" aria-labelledby="lifestyle-gallery-heading">
+    <div class="container">
+      <h2 id="lifestyle-gallery-heading" class="lifestyle-gallery__title">See the Style Possibilities</h2>
+      <div class="lifestyle-gallery__wrap">
+        <div class="lifestyle-gallery__main" role="img" aria-label="Lifestyle scene">
+          <div class="lifestyle-gallery__main-inner">
+            <img class="lifestyle-gallery__main-img" src="" alt="" id="lifestyle-gallery-main-img">
+            <div id="lifestyle-gallery-hotspots" class="lifestyle-gallery__hotspots"></div>
+          </div>
+          <div class="lifestyle-gallery__rail" id="lifestyle-gallery-rail" role="tablist" aria-label="Choose scene"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing module: Window Blinds for Every Budget -->
+  <section class="pricing-module section" id="pricing-module" aria-labelledby="pricing-module-heading">
+    <div class="pricing-module__inner">
+      <div class="pricing-module__heading-wrap" data-animate>
+        <div class="pricing-module__heading">
+          <h2 id="pricing-module-heading" class="pricing-module__title">Window Blinds for Every Budget</h2>
+          <p class="pricing-module__intro">Find the perfect fit for your home and your budget. We offer a wide range of styles and materials to match any décor.</p>
+          <p class="pricing-module__intro">Quality craftsmanship and expert installation are included—so you get lasting value at a price that works for you.</p>
+          <p class="pricing-module__disclaimer">Pricing varies by size, material, and installation. These ranges are for guidance only.</p>
+        </div>
+      </div>
+      <div class="pricing-module__cards-wrap">
+        <div class="pricing-module__grid">
+          <div class="pricing-module__card-wrap" data-animate>
+            <span class="pricing-module__tier-label" aria-hidden="true">Essential Style</span>
+            <div class="pricing-module__card">
+              <p class="pricing-module__card-starting">Starting at</p>
+              <p class="pricing-module__card-price">$99</p>
+              <p class="pricing-module__card-desc">Quality basics that look great and perform every day. Ideal for standard windows and straightforward style.</p>
+            </div>
+          </div>
+          <div class="pricing-module__card-wrap" data-animate>
+            <span class="pricing-module__tier-label" aria-hidden="true">Elevated Design</span>
+            <div class="pricing-module__card">
+              <p class="pricing-module__card-starting">Starting at</p>
+              <p class="pricing-module__card-price">$199</p>
+              <p class="pricing-module__card-desc">Enhanced materials and design options for a more custom look. Great for larger windows and upgraded finishes.</p>
+            </div>
+          </div>
+          <div class="pricing-module__card-wrap" data-animate>
+            <span class="pricing-module__tier-label" aria-hidden="true">Premium</span>
+            <div class="pricing-module__card">
+              <p class="pricing-module__card-starting">Starting at</p>
+              <p class="pricing-module__card-price">$349</p>
+              <p class="pricing-module__card-desc">Top-tier materials, motorization options, and full customization. For the best in durability and style.</p>
+            </div>
+          </div>
+        </div>
+        <div class="pricing-module__cta-wrap" data-animate>
+          <a href="#consultation" class="btn pricing-module__cta">
+            Get Your Free Quote
+            <img src="assets/images/Icons-rightarrow-carat.svg" alt="" class="btn__icon" width="15" height="15">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features intro: heading + description above feature hero -->
+  <section class="feature-hero-intro" aria-labelledby="feature-hero-intro-heading">
+    <div class="feature-hero-intro__inner">
+      <h2 id="feature-hero-intro-heading" class="feature-hero-intro__title">Features Designed for Comfort, Style, and Control</h2>
+      <p class="feature-hero-intro__desc">Window coverings can control light, privacy, and how your space feels. That's why we offer custom features for blinds like room darkening and motorization to suit your needs.</p>
+    </div>
+  </section>
+
+  <!-- Feature Accordion Hero (copy for blinds page – update content and images as needed) -->
+  <section class="feature-hero" id="feature-hero-blinds">
+    <div class="feature-hero__backgrounds">
+      <div class="feature-hero__bg" data-image="1" data-desktop-image="assets/images/features-module/room-darkening.png" data-mobile-image="assets/images/features-module/room-darkening.png"></div>
+      <div class="feature-hero__bg" data-image="2" data-desktop-image="assets/images/features-module/moisture-resistant.png" data-mobile-image="assets/images/features-module/moisture-resistant.png"></div>
+      <div class="feature-hero__bg" data-image="3" data-desktop-image="assets/images/features-module/cordless.png" data-mobile-image="assets/images/features-module/cordless.png"></div>
+      <div class="feature-hero__bg" data-image="4"></div>
+      <video class="feature-hero__bg-video" data-feature="4" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/videos/blinds.webm" type="video/webm">
+      </video>
+      <div class="feature-hero__bg" data-image="5" data-desktop-image="assets/images/features-module/durability.png" data-mobile-image="assets/images/features-module/durability.png"></div>
+      <div class="feature-hero__bg" data-image="6" data-desktop-image="assets/images/features-module/smarthome.png" data-mobile-image="assets/images/features-module/smarthome.png"></div>
+      <div class="feature-hero__bg" data-image="7" data-desktop-image="assets/images/features-module/personalized.png" data-mobile-image="assets/images/features-module/personalized.png"></div>
+    </div>
+    <div class="container feature-hero__container">
+      <div class="feature-hero__accordion">
+        <div class="feature-accordion-item" data-feature="1">
+          <button class="feature-accordion-item__header" aria-expanded="true">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">01</span>
+              <span class="feature-accordion-item__label">Room Darkening</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content open">
+            <div>
+              <p>Block out light for better sleep, movie viewing, or privacy. Room darkening blinds and shades help you control how much light enters your space.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="2">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">02</span>
+              <span class="feature-accordion-item__label">Moisture Resistant</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Ideal for bathrooms, kitchens, and high-humidity areas. Moisture-resistant materials resist warping and wear so your blinds look and perform great over time.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="3">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">03</span>
+              <span class="feature-accordion-item__label">Cordless, Child, &amp; Pet-Friendly</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Cordless and motorized options eliminate dangling cords for a safer home. Perfect for families with children and pets.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="4">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">04</span>
+              <span class="feature-accordion-item__label">Motorization</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Adjust your blinds and shades with the touch of a button or from your phone. Motorization adds convenience and works for hard-to-reach windows.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="5">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">05</span>
+              <span class="feature-accordion-item__label">Durability</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Quality materials and construction mean your window treatments stand up to daily use and keep looking great for years.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="6">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">06</span>
+              <span class="feature-accordion-item__label">Smart Home Integration</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Connect your motorized shades to Alexa, Google Home, Apple HomeKit, or other smart home systems for voice and app control.</p>
+            </div>
+          </div>
+        </div>
+        <div class="feature-accordion-item" data-feature="7">
+          <button class="feature-accordion-item__header" aria-expanded="false">
+            <div class="feature-accordion-item__title">
+              <span class="feature-accordion-item__number">07</span>
+              <span class="feature-accordion-item__label">Personalized By Room</span>
+            </div>
+            <span class="feature-accordion-item__icon" aria-hidden="true">
+              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
+              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
+            </span>
+          </button>
+          <div class="feature-accordion-item__content">
+            <div>
+              <p>Choose different styles, materials, and features for each room. We help you create a custom solution that fits every space.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why Choose Us editorial feature -->
+  <section class="why-choose section" id="why-choose" aria-labelledby="why-choose-heading">
+    <div class="why-choose__inner">
+      <div class="why-choose__heading-wrap" data-animate-block>
+        <h2 id="why-choose-heading" class="why-choose__title">Why Choose Budget Blinds?</h2>
+        <p class="why-choose__intro">Thoughtful design, trusted craftsmanship, and expert installation come together to create window treatments tailored to your home.</p>
+      </div>
+      <div class="why-choose__grid" id="why-choose-slider" data-animate-block role="region" aria-label="Why choose us cards">
+        <div class="why-choose__col">
+          <div class="why-choose__img-wrap">
+            <img src="assets/images/blinds/whychoose-5.png" alt="Professional installation" width="400" height="320" loading="lazy">
+          </div>
+          <h3 class="why-choose__col-title">Professional Installation</h3>
+          <p class="why-choose__col-desc">Enjoy your new window treatments without the hassle. Our experienced installers ensure precise measurements and a perfect fit, so everything looks and functions beautifully from day one.</p>
+        </div>
+        <div class="why-choose__col">
+          <div class="why-choose__img-wrap">
+            <img src="assets/images/blinds/whychoose-2.png" alt="Superior quality" width="400" height="320" loading="lazy">
+          </div>
+          <h3 class="why-choose__col-title">Superior Quality</h3>
+          <p class="why-choose__col-desc">We partner with trusted manufacturers to deliver window treatments designed for lasting performance, beautiful finishes, and everyday durability you can rely on.</p>
+        </div>
+        <div class="why-choose__col">
+          <div class="why-choose__img-wrap">
+            <img src="assets/images/blinds/whychoose-3.png" alt="Wide range of styles" width="400" height="320" loading="lazy">
+          </div>
+          <h3 class="why-choose__col-title">Wide Range of Styles</h3>
+          <p class="why-choose__col-desc">From timeless classics to modern designs, explore a wide selection of materials, colors, and finishes to find window treatments, with our design experts here to support you.</p>
+        </div>
+        <div class="why-choose__col">
+          <div class="why-choose__img-wrap">
+            <img src="assets/images/blinds/whychoose-4.png" alt="Fitting specialty windows" width="400" height="320" loading="lazy">
+          </div>
+          <h3 class="why-choose__col-title">Fitting Specialty Windows</h3>
+          <p class="why-choose__col-desc">Arched, angled, oversized, or uniquely shaped are no problem for our custom solutions designed to fit specialty windows with precision.</p>
+        </div>
+      </div>
+      <div class="why-choose__pagination" id="why-choose-dots" role="tablist" aria-label="Slide navigation">
+        <button type="button" class="why-choose__dot is-active" role="tab" aria-selected="true" aria-label="Slide 1" data-index="0"></button>
+        <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 2" data-index="1"></button>
+        <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 3" data-index="2"></button>
+        <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 4" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Accordion Module -->
+  <style>
+    .faq-accordion {
+      background: #fff;
+      padding: 70px 0;
+    }
+    .faq-accordion__inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 var(--page-margin, 1.5rem);
+    }
+    .faq-accordion__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 700;
+      color: #2a6475;
+      text-align: center;
+      margin: 0 0 2.5rem;
+      line-height: 1.2;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .faq-accordion__title.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .faq-accordion__list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .faq-accordion__item {
+      background: #F7F6F5;
+      border-radius: 10px;
+      padding: 28px 36px;
+      min-height: 80px;
+      box-sizing: border-box;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+    .faq-accordion__item.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .faq-accordion__item:nth-child(1) { transition-delay: 0s; }
+    .faq-accordion__item:nth-child(2) { transition-delay: 0.08s; }
+    .faq-accordion__item:nth-child(3) { transition-delay: 0.16s; }
+    .faq-accordion__item:nth-child(4) { transition-delay: 0.24s; }
+    .faq-accordion__item:nth-child(5) { transition-delay: 0.32s; }
+    .faq-accordion__item:nth-child(6) { transition-delay: 0.4s; }
+    .faq-accordion__trigger {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 1rem;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      text-align: left;
+      font: inherit;
+      color: inherit;
+    }
+    .faq-accordion__question {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--utility-grey-600);
+      font-size: 1.4rem;
+      line-height: 1.5;
+      flex: 1;
+      min-width: 0;
+    }
+    .faq-accordion__chevron {
+      flex-shrink: 0;
+      display: block;
+      width: 2rem;
+      height: 2rem;
+      transition: transform 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .faq-accordion__chevron img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .faq-accordion__item.is-open .faq-accordion__chevron {
+      transform: rotate(180deg);
+    }
+    .faq-accordion__answer-wrap {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .faq-accordion__answer {
+      font-weight: 400;
+      font-size: var(--body-lg);
+      color: #444;
+      line-height: 1.7;
+      margin: 0;
+      padding-top: 16px;
+    }
+    @media (max-width: 768px) {
+      .faq-accordion__inner {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+    }
+    @media (max-width: 480px) {
+      .faq-accordion__inner {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+      .faq-accordion__item {
+        padding: 20px 22px;
+        min-height: 64px;
+      }
+      .faq-accordion__question {
+        font-size: 1rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .faq-accordion__title,
+      .faq-accordion__item {
+        transform: none;
+        transition: opacity 0.1s ease-out;
+      }
+      .faq-accordion__item:nth-child(1),
+      .faq-accordion__item:nth-child(2),
+      .faq-accordion__item:nth-child(3),
+      .faq-accordion__item:nth-child(4),
+      .faq-accordion__item:nth-child(5),
+      .faq-accordion__item:nth-child(6) {
+        transition-delay: 0s;
+      }
+      .faq-accordion__chevron,
+      .faq-accordion__answer-wrap {
+        transition-duration: 0.1s;
+      }
+    }
+  </style>
+  <section class="faq-accordion" id="faq" aria-labelledby="faq-heading">
+    <div class="faq-accordion__inner">
+      <h2 id="faq-heading" class="faq-accordion__title">Frequently Asked Questions</h2>
+      <div class="faq-accordion__list">
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-1" id="faq-q1">
+            <span class="faq-accordion__question">What are the benefits of choosing custom blinds over ready-made ones?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-1" role="region" aria-labelledby="faq-q1">
+            <p class="faq-accordion__answer">Custom blinds offer a tailored fit, superior quality, and a wide range of styles and materials to perfectly match your decor and functional needs.</p>
+          </div>
+        </div>
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-2" id="faq-q2">
+            <span class="faq-accordion__question">How do I schedule a consultation with a local design consultant?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-2" role="region" aria-labelledby="faq-q2">
+            <p class="faq-accordion__answer">You can easily schedule a free, in-home consultation through the Budget Blinds website directly.</p>
+          </div>
+        </div>
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-3" id="faq-q3">
+            <span class="faq-accordion__question">Are custom blinds available in moisture-resistant materials?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-3" role="region" aria-labelledby="faq-q3">
+            <p class="faq-accordion__answer">Yes, Budget Blinds offers moisture-resistant custom blinds, ideal for high-humidity areas like bathrooms and kitchens to prevent warping and damage.</p>
+          </div>
+        </div>
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-4" id="faq-q4">
+            <span class="faq-accordion__question">What safety features are available for homes with children and pets?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-4" role="region" aria-labelledby="faq-q4">
+            <p class="faq-accordion__answer">Custom blinds from Budget Blinds are always made cordless and have an optional motorization feature, eliminating the risk of entanglement and ensuring a safer environment for children and pets.</p>
+          </div>
+        </div>
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-5" id="faq-q5">
+            <span class="faq-accordion__question">Can custom blinds be motorized and integrated with my smart home system?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-5" role="region" aria-labelledby="faq-q5">
+            <p class="faq-accordion__answer">Absolutely, many custom blinds can be motorized and integrated with smart home systems such as Alexa, Google Home, and Apple HomeKit for automated and voice-controlled operation.</p>
+          </div>
+        </div>
+        <div class="faq-accordion__item">
+          <button type="button" class="faq-accordion__trigger" aria-expanded="false" aria-controls="faq-answer-6" id="faq-q6">
+            <span class="faq-accordion__question">Can custom blinds be installed on specialty windows, such as arched or bay windows?</span>
+            <span class="faq-accordion__chevron" aria-hidden="true"><img src="assets/images/arrow-down.svg" alt="" width="18" height="18"></span>
+          </button>
+          <div class="faq-accordion__answer-wrap" id="faq-answer-6" role="region" aria-labelledby="faq-q6">
+            <p class="faq-accordion__answer">Yes! Custom blinds can be designed to fit specialty windows, including arched, bay, and other uniquely shaped windows, ensuring a perfect fit and stylish look.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    (function() {
+      var faq = document.getElementById('faq');
+      if (!faq) return;
+      var title = faq.querySelector('.faq-accordion__title');
+      var items = faq.querySelectorAll('.faq-accordion__item');
+      var triggers = faq.querySelectorAll('.faq-accordion__trigger');
+      triggers.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var item = btn.closest('.faq-accordion__item');
+          var wasOpen = item.classList.contains('is-open');
+          items.forEach(function(i) {
+            i.classList.remove('is-open');
+            var w = i.querySelector('.faq-accordion__answer-wrap');
+            if (w) w.style.maxHeight = '0';
+          });
+          if (!wasOpen) {
+            item.classList.add('is-open');
+            btn.setAttribute('aria-expanded', 'true');
+            var wrap = item.querySelector('.faq-accordion__answer-wrap');
+            if (wrap) wrap.style.maxHeight = wrap.scrollHeight + 'px';
+          } else {
+            btn.setAttribute('aria-expanded', 'false');
+          }
+          triggers.forEach(function(b) {
+            b.setAttribute('aria-expanded', b.closest('.faq-accordion__item').classList.contains('is-open'));
+          });
+        });
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          if (entry.target === title) {
+            observer.unobserve(title);
+          } else {
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      if (title) observer.observe(title);
+      items.forEach(function(item) { observer.observe(item); });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var slider = document.getElementById('why-choose-slider');
+      var dotsContainer = document.getElementById('why-choose-dots');
+      if (!slider || !dotsContainer) return;
+      var dots = dotsContainer.querySelectorAll('.why-choose__dot');
+      var cols = slider.querySelectorAll('.why-choose__col');
+      function updateDots() {
+        var scrollLeft = slider.scrollLeft;
+        var containerWidth = slider.offsetWidth;
+        var gap = 16;
+        var cardWidth = cols[0] ? cols[0].offsetWidth + gap : containerWidth;
+        var index = Math.round(scrollLeft / cardWidth);
+        index = Math.max(0, Math.min(index, cols.length - 1));
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('is-active', i === index);
+          dot.setAttribute('aria-selected', i === index);
+        });
+      }
+      function goToSlide(index) {
+        var cardWidth = cols[0] ? cols[0].offsetWidth + 16 : slider.offsetWidth;
+        slider.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+      }
+      slider.addEventListener('scroll', function() { updateDots(); });
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          var i = parseInt(dot.getAttribute('data-index'), 10);
+          if (!isNaN(i)) goToSlide(i);
+        });
+      });
+      var ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateDots) : null;
+      if (ro) ro.observe(slider);
+    })();
+  </script>
+
+  <script type="module" src="assets/js/main.js"></script>
+  <script src="assets/js/feature-accordion-hero-standalone.js"></script>
+  <script src="assets/js/shop-category-carousel-standalone.js"></script>
+  <!-- Lifestyle gallery: data-driven, self-contained -->
+  <script>
+    (function() {
+      // ---------- SCENE DATA (easy to update) ----------
+      var LIFESTYLE_SCENES = [
+        {
+          main: 'assets/images/blinds/gallery.png',
+          thumb: 'assets/images/blinds/gallery.png',
+          hotspots: [
+            { x: '60%', y: '48%', title: 'Wood Blinds', material: 'Lorem Ipsum', color: 'Lorem Ipsum', ctaLabel: 'View Shades', ctaHref: 'index.html#products' }
+          ]
+        },
+        {
+          main: 'assets/images/blinds/gallery02.png',
+          thumb: 'assets/images/blinds/gallery02.png',
+          hotspots: [
+            { x: '40%', y: '30%', title: 'Wood Blinds', material: 'Lorem Ipsum', color: 'Lorem Ipsum', ctaLabel: 'Go to Wood Blinds', ctaHref: '#wood' }
+          ]
+        },
+        {
+          main: 'assets/images/blinds/gallery03.png',
+          thumb: 'assets/images/blinds/gallery03.png',
+          hotspots: [
+            { x: '65%', y: '40%', title: 'Roman Shades', material: 'Lorem Ipsum', color: 'Lorem Ipsum', ctaLabel: 'View Roman Shades', ctaHref: 'index.html#products' }
+          ]
+        },
+        {
+          main: 'assets/images/blinds/gallery04.png',
+          thumb: 'assets/images/blinds/gallery04.png',
+          hotspots: [
+            { x: '45%', y: '50%', title: 'Panel Track', material: 'Lorem Ipsum', color: 'Lorem Ipsum', ctaLabel: 'Go to Panel Track', ctaHref: '#panel-track' }
+          ]
+        },
+        {
+          main: 'assets/images/blinds/gallery05.png',
+          thumb: 'assets/images/blinds/gallery05.png',
+          hotspots: [
+            { x: '30%', y: '50%', title: 'Blinds & Shades', material: 'Lorem Ipsum', color: 'Lorem Ipsum', ctaLabel: 'Explore All Products', ctaHref: 'index.html#products' }
+          ]
+        }
+      ];
+
+      var currentSceneIndex = 0;
+      var openPopoverHotspot = null;
+
+      var mainImg = document.getElementById('lifestyle-gallery-main-img');
+      var hotspotsEl = document.getElementById('lifestyle-gallery-hotspots');
+      var railEl = document.getElementById('lifestyle-gallery-rail');
+      var mainContainer = mainImg && mainImg.closest('.lifestyle-gallery__main');
+
+      function setMainImage(src) {
+        if (!mainImg) return;
+        mainImg.classList.add('is-fading');
+        setTimeout(function() {
+          mainImg.src = src;
+          mainImg.alt = 'Lifestyle scene';
+          mainImg.classList.remove('is-fading');
+        }, 350);
+      }
+
+      function renderHotspots(scene) {
+        if (!hotspotsEl || !scene || !scene.hotspots) return;
+        hotspotsEl.innerHTML = '';
+        scene.hotspots.forEach(function(h, i) {
+          var dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'lifestyle-gallery__hotspot';
+          dot.setAttribute('aria-label', 'Product info: ' + h.title);
+          dot.style.left = h.x;
+          dot.style.top = h.y;
+          dot.dataset.index = i;
+          dot.dataset.x = h.x;
+          dot.dataset.y = h.y;
+          dot.dataset.title = h.title;
+          dot.dataset.material = h.material;
+          dot.dataset.color = h.color;
+          dot.dataset.ctaLabel = h.ctaLabel;
+          dot.dataset.ctaHref = h.ctaHref || '#';
+          var openPopover = function(e) {
+            if (e && e.stopPropagation) e.stopPropagation();
+            togglePopover(dot, scene.hotspots[i]);
+          };
+          addTapHandler(dot, openPopover);
+          hotspotsEl.appendChild(dot);
+        });
+      }
+
+      function positionPopoverByDot(card, dot) {
+        var containerRect = mainContainer.getBoundingClientRect();
+        var dotRect = dot.getBoundingClientRect();
+        var gap = 10;
+        var cardW = card.offsetWidth;
+        var cardH = card.offsetHeight;
+        var dotCenterX = dotRect.left - containerRect.left + dotRect.width / 2;
+        var spaceBelow = containerRect.bottom - dotRect.bottom;
+        var spaceAbove = dotRect.top - containerRect.top;
+        var spaceRight = containerRect.right - dotRect.right;
+        var spaceLeft = dotRect.left - containerRect.left;
+        var topPx, leftPx;
+        if (spaceBelow >= cardH + gap || spaceBelow >= spaceAbove) {
+          topPx = (dotRect.bottom - containerRect.top) + gap;
+        } else {
+          topPx = (dotRect.top - containerRect.top) - cardH - gap;
+        }
+        leftPx = dotCenterX - cardW / 2;
+        leftPx = Math.max(gap, Math.min(leftPx, containerRect.width - cardW - gap));
+        topPx = Math.max(gap, Math.min(topPx, containerRect.height - cardH - gap));
+        card.style.top = topPx + 'px';
+        card.style.left = leftPx + 'px';
+        card.style.right = 'auto';
+        card.style.transform = 'none';
+        card.style.marginLeft = '';
+        card.style.marginRight = '';
+      }
+
+      function togglePopover(dot, data) {
+        var wasOpen = openPopoverHotspot === dot;
+        closePopover();
+        if (wasOpen) return;
+        openPopoverHotspot = dot;
+        var card = document.createElement('div');
+        card.className = 'lifestyle-gallery__popover';
+        card.innerHTML =
+          '<p class="lifestyle-gallery__popover-title">' + escapeHtml(data.title) + '</p>' +
+          '<p class="lifestyle-gallery__popover-label">MATERIAL</p>' +
+          '<p class="lifestyle-gallery__popover-value">' + escapeHtml(data.material) + '</p>' +
+          '<p class="lifestyle-gallery__popover-label">COLOR</p>' +
+          '<p class="lifestyle-gallery__popover-value">' + escapeHtml(data.color) + '</p>' +
+          '<a href="' + escapeHtml(data.ctaHref) + '" class="text-cta-link lifestyle-gallery__popover-cta">' + escapeHtml(data.ctaLabel) + ' <img src="assets/images/arrow-small.svg" alt="" class="text-cta-link__icon" width="16" height="16"></a>';
+        mainContainer.appendChild(card);
+        void card.offsetHeight;
+        positionPopoverByDot(card, dot);
+        card.classList.add('is-open');
+      }
+
+      function escapeHtml(s) {
+        var div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      function closePopover() {
+        var card = mainContainer && mainContainer.querySelector('.lifestyle-gallery__popover');
+        if (card) card.remove();
+        openPopoverHotspot = null;
+      }
+
+      function goToScene(index) {
+        index = Math.max(0, Math.min(index, LIFESTYLE_SCENES.length - 1));
+        currentSceneIndex = index;
+        var scene = LIFESTYLE_SCENES[index];
+        setMainImage(scene.main);
+        renderHotspots(scene);
+        closePopover();
+        railEl.querySelectorAll('.lifestyle-gallery__thumb-btn').forEach(function(btn, i) {
+          btn.classList.toggle('is-active', i === index);
+          btn.setAttribute('aria-selected', i === index);
+        });
+      }
+
+      function addTapHandler(el, handler) {
+        var startX = 0, startY = 0;
+        el.addEventListener('click', handler);
+        el.addEventListener('touchstart', function(e) {
+          if (e.changedTouches && e.changedTouches[0]) {
+            startX = e.changedTouches[0].clientX;
+            startY = e.changedTouches[0].clientY;
+          }
+        }, { passive: true });
+        el.addEventListener('touchend', function(e) {
+          if (!e.changedTouches || !e.changedTouches[0]) return;
+          var dx = e.changedTouches[0].clientX - startX;
+          var dy = e.changedTouches[0].clientY - startY;
+          if (dx * dx + dy * dy < 400) {
+            e.preventDefault();
+            handler(e);
+          }
+        }, { passive: false });
+      }
+
+      function buildRail() {
+        if (!railEl) return;
+        railEl.innerHTML = '';
+        LIFESTYLE_SCENES.forEach(function(scene, i) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'lifestyle-gallery__thumb-btn' + (i === 0 ? ' is-active' : '');
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', i === 0);
+          btn.setAttribute('aria-label', 'Scene ' + (i + 1));
+          var img = document.createElement('img');
+          img.className = 'lifestyle-gallery__thumb';
+          img.src = scene.thumb;
+          img.alt = '';
+          img.loading = i === 0 ? 'eager' : 'lazy';
+          btn.appendChild(img);
+          addTapHandler(btn, function() { goToScene(i); });
+          railEl.appendChild(btn);
+        });
+      }
+
+      function closePopoverIfOutside(target) {
+        if (!openPopoverHotspot || !target || !target.closest) return;
+        if (target.closest('.lifestyle-gallery__popover') || target.closest('.lifestyle-gallery__hotspot')) return;
+        closePopover();
+      }
+
+      function initLifestyleGallery() {
+        if (!mainImg || !railEl || !LIFESTYLE_SCENES.length) return;
+        buildRail();
+        goToScene(0);
+        document.addEventListener('click', function(e) { closePopoverIfOutside(e.target); });
+        document.addEventListener('touchend', function(e) {
+          if (e.changedTouches && e.changedTouches[0]) closePopoverIfOutside(document.elementFromPoint(e.changedTouches[0].clientX, e.changedTouches[0].clientY));
+        }, { passive: true });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLifestyleGallery);
+      } else {
+        initLifestyleGallery();
+      }
+    })();
+  </script>
+  <script>
+    (function() {
+      function initScrollAnimations() {
+        var targets = [];
+        var pricingSection = document.getElementById('pricing-module');
+        if (pricingSection) targets = Array.prototype.slice.call(pricingSection.querySelectorAll('[data-animate]'));
+        var comparisonSection = document.querySelector('.comparison[data-animate-block]');
+        if (comparisonSection) targets.push(comparisonSection);
+        var whyChoose = document.getElementById('why-choose');
+        if (whyChoose) targets = targets.concat(Array.prototype.slice.call(whyChoose.querySelectorAll('[data-animate-block]')));
+        if (!targets.length) return;
+        var observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            if (el.classList.contains('is-visible')) return;
+            el.classList.add('is-visible');
+            observer.unobserve(el);
+          });
+        }, { threshold: 0.2, rootMargin: '0px' });
+        targets.forEach(function(el) { observer.observe(el); });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initScrollAnimations);
+      } else {
+        initScrollAnimations();
+      }
+    })();
+  </script>
+  <script>
+    (function() {
+      function initShopCategoryToggle() {
+        var grid = document.querySelector('.shop-category__grid');
+        var toggles = document.querySelectorAll('.shop-category__toggle');
+        if (!grid || !toggles.length) return;
+        toggles.forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var view = btn.getAttribute('data-view');
+            if (!view) return;
+            grid.setAttribute('data-view', view);
+            toggles.forEach(function(b) {
+              var isActive = b.getAttribute('data-view') === view;
+              b.classList.toggle('is-active', isActive);
+              b.setAttribute('aria-pressed', isActive);
+            });
+          });
+        });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initShopCategoryToggle);
+      } else {
+        initShopCategoryToggle();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+/* =============================
+   BASE STYLES
+============================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--body-md);
+  line-height: var(--lh-relaxed);
+  color: var(--utility-grey-800);
+  background-color: var(--color-bg-default);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  color: var(--utility-grey-800);
+  margin: 0;
+}
+
+h1 { font-size: var(--h1-size); line-height: var(--lh-tight); }
+h2 { font-size: var(--h2-size); line-height: var(--lh-tight); }
+h3 { font-size: var(--h3-size); line-height: var(--lh-normal); }
+h4 { font-size: var(--h4-size); line-height: var(--lh-normal); }
+h5 { font-size: var(--h5-size); line-height: var(--lh-normal); }
+
+p { 
+  margin: 0 0 var(--space-4); 
+  color: var(--utility-grey-600);
+}
+
+a {
+  color: var(--primary-budget-blinds-blue);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+a:hover { color: var(--secondary-bright-blue); }
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* =============================
+   LAYOUT HELPERS
+============================= */
+.container {
+  width: min(100% - (var(--page-margin) * 2), var(--container-max));
+  margin-inline: auto;
+}
+@media (min-width: 1024px) {
+  .container { width: min(100% - (var(--page-margin-lg) * 2), var(--container-max)); }
+}
+
+.section {
+  padding-block: var(--space-12);
+}
+@media (min-width: 1024px) {
+  .section { padding-block: var(--space-16); }
+}
+
+.stack > * + * { margin-top: var(--space-6); }
+.stack--tight > * + * { margin-top: var(--space-4); }
+.stack--loose > * + * { margin-top: var(--space-8); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gap);
+}
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(var(--grid-columns-md), 1fr); }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(var(--grid-columns-lg), 1fr);
+    gap: var(--grid-gap-lg);
+  }
+}
