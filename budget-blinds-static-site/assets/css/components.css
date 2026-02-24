@@ -1114,12 +1114,16 @@
 /* =============================
    TEXT SECTION COMPONENT
 ============================= */
+bb-text-section {
+  display: block;
+}
+
 .text-section {
   background: var(--primary-white);
   margin-top: 0;
   padding-block: var(--space-16);
   position: relative;
-  z-index: 10;
+  z-index: 20;
   clear: both;
 }
 
