@@ -2784,22 +2784,18 @@ bb-text-section {
 }
 
 /* Swipe-nudge: one-time hint that product tiles are swipeable (Option A) */
-/* Option A: translate left ~20px over 250ms, then return over 250ms */
-@keyframes shop-category-nudge-inner {
-  0% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-20px);
-  }
-  100% {
-    transform: translateX(0);
-  }
+@keyframes carouselNudge {
+  0%   { transform: translateX(0); }
+  8%   { transform: translateX(-1px); }
+  20%  { transform: translateX(-5%); }
+  35%  { transform: translateX(-6%); }
+  55%  { transform: translateX(0.5%); }
+  70%  { transform: translateX(-0.25%); }
+  100% { transform: translateX(0); }
 }
 
 .shop-category__card-carousel-inner--nudge {
-  transition: none;
-  animation: shop-category-nudge-inner 500ms ease-out forwards;
+  animation: carouselNudge 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 /* Dot pager hint: subtle pulse when nudge runs */
@@ -2819,6 +2815,12 @@ bb-text-section {
 
 .shop-category__card-dots--hint {
   animation: shop-category-dots-hint 200ms ease-out;
+}
+
+.shop-category__card-dots--hint .shop-category__card-dot {
+  opacity: 1;
+  transform: scale(1.2);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2961,7 +2963,7 @@ bb-text-section {
   border: none;
   padding: 0;
   cursor: pointer;
-  transition: background var(--dur-fast) var(--ease-standard);
+  transition: opacity 0.3s ease, transform 0.3s ease;
   flex-shrink: 0;
 }
 
