@@ -19,6 +19,28 @@
       return (isMobile && mobileImage) ? mobileImage : desktopImage;
     }
 
+    function getVideoSrc(video) {
+      var isMobile = mobileMatch.matches;
+      var desktopSrc = video.getAttribute('data-desktop-src');
+      var mobileSrc = video.getAttribute('data-mobile-src');
+      return (isMobile && mobileSrc) ? mobileSrc : (desktopSrc || '');
+    }
+
+    function applyVideoSources() {
+      videos.forEach(function(video) {
+        var src = getVideoSrc(video);
+        if (!src) return;
+        var source = video.querySelector('source');
+        if (source && source.getAttribute('src') !== src) {
+          source.setAttribute('src', src);
+          video.load();
+          if (video.classList.contains('active')) {
+            video.play && video.play();
+          }
+        }
+      });
+    }
+
     function preloadImages() {
       backgrounds.forEach(function(bg) {
         var targetImage = getImageForBg(bg);
@@ -102,10 +124,17 @@
     }
 
     preloadImages();
+    applyVideoSources();
     if (mobileMatch.addEventListener) {
-      mobileMatch.addEventListener('change', preloadImages);
+      mobileMatch.addEventListener('change', function() {
+        preloadImages();
+        applyVideoSources();
+      });
     } else if (mobileMatch.addListener) {
-      mobileMatch.addListener(preloadImages);
+      mobileMatch.addListener(function() {
+        preloadImages();
+        applyVideoSources();
+      });
     }
 
     var firstOpen = hero.querySelector('.feature-accordion-item__content.open');
