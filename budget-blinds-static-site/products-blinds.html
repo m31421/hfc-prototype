@@ -282,12 +282,12 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1.5rem;
-      align-items: start;
+      align-items: stretch;
     }
     .pricing-module__card-wrap {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: stretch;
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -327,8 +327,12 @@
       border-radius: 16px;
       padding: 2.5rem 2rem;
       width: 100%;
+      flex: 1;
+      min-height: 0;
       text-align: center;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
     }
     .pricing-module__card-wrap:nth-child(1) .pricing-module__card { background: var(--pricing-card-bg-1); }
     .pricing-module__card-wrap:nth-child(2) .pricing-module__card { background: var(--pricing-card-bg-2); }
@@ -354,6 +358,7 @@
       color: var(--color-body);
       margin: 0;
       line-height: 1.6;
+      flex: 1;
     }
     .pricing-module__cta-wrap {
       text-align: center;
@@ -401,21 +406,10 @@
       }
       .comparison[data-animate-block].is-visible { transform: none; }
     }
-    @media (min-width: 1030px) {
+    @media (min-width: 768px) {
       .pricing-module__grid { grid-template-columns: repeat(3, 1fr); }
     }
-    @media (min-width: 1030px) and (max-width: 1200px) {
-      .pricing-module__grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .pricing-module__card-wrap:nth-child(3) {
-        grid-column: 1 / -1;
-        max-width: 400px;
-        justify-self: center;
-      }
-      .pricing-module__card-wrap:nth-child(3) { transition-delay: 0.3s; }
-    }
-    @media (max-width: 1029px) {
+    @media (max-width: 767px) {
       .pricing-module__grid {
         grid-template-columns: 1fr;
         gap: 1.25rem;
@@ -1186,7 +1180,7 @@
           </button>
           <div class="feature-accordion-item__content">
             <div>
-              <p>Quality materials and construction mean your window treatments stand up to daily use and keep looking great for years.</p>
+              <p>Many of our blinds are made from materials that are resistant to dust, moisture, and fading, making them long-lasting and low-maintenance.</p>
             </div>
           </div>
         </div>

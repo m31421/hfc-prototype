@@ -2795,6 +2795,7 @@ bb-text-section {
   display: flex;
   flex-direction: column;
   min-height: 0;
+  height: max-content;
 }
 
 /* In multi-column grid, cards stretch to fill row height so no blank space below shorter cards */
