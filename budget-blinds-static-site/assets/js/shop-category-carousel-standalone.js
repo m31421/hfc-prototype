@@ -19,8 +19,8 @@
       var dotsContainer = cardEl.querySelector('.shop-category__card-dots');
       if (!inner || !dotsContainer) return;
 
-      var images = inner.querySelectorAll('img');
-      var count = images.length;
+      var slides = inner.querySelectorAll('img, video');
+      var count = slides.length;
       if (count === 0) return;
 
       var currentIndex = 0;
@@ -34,6 +34,16 @@
         dotsContainer.querySelectorAll('.shop-category__card-dot').forEach(function(dot, i) {
           dot.classList.toggle('is-active', i === index);
           dot.setAttribute('aria-selected', i === index);
+        });
+
+        inner.querySelectorAll('video').forEach(function(video, i) {
+          try {
+            if (i === index) {
+              video.play();
+            } else {
+              video.pause();
+            }
+          } catch (e) {}
         });
 
         if (index > 0) {
