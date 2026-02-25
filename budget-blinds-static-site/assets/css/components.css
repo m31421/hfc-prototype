@@ -1425,6 +1425,7 @@ bb-text-section {
   
   .feature-hero__accordion {
     max-width: 100%;
+    gap: 4px;
   }
   
   .feature-accordion-item__header {
@@ -2712,6 +2713,7 @@ bb-text-section {
     gap: var(--grid-gap-lg);
     padding-inline: var(--page-margin-lg);
     box-sizing: border-box;
+    align-items: stretch;
   }
 
   .shop-category__grid[data-view="small"] {
@@ -2725,13 +2727,14 @@ bb-text-section {
     grid-row: auto;
   }
 
+  /* Tablet: 5 rows of 2 — large card is single row like others */
   .shop-category__card--large {
-    grid-row: span 2;
+    grid-row: auto;
   }
 
   .shop-category__consultation {
     grid-column: span 2;
-    grid-row: span 2;
+    grid-row: auto;
   }
 }
 
@@ -2764,6 +2767,16 @@ bb-text-section {
   }
 }
 
+/* 1200px and under: consultation after all product cards (same as mobile) */
+@media (max-width: 1200px) {
+  .shop-category__grid .shop-category__consultation {
+    order: 999;
+    grid-column: 1 / -1;
+    grid-row: auto;
+    min-height: 0;
+  }
+}
+
 .shop-category__card.card {
   padding: 0;
   border-radius: 0;
@@ -2781,6 +2794,14 @@ bb-text-section {
   color: inherit;
   display: flex;
   flex-direction: column;
+  min-height: 0;
+}
+
+/* In multi-column grid, cards stretch to fill row height so no blank space below shorter cards */
+@media (min-width: 1030px) {
+  .shop-category__grid .shop-category__card {
+    min-height: 100%;
+  }
 }
 
 /* Swipe-nudge: one-time hint that product tiles are swipeable (Option A) */
@@ -3332,8 +3353,7 @@ bb-text-section {
 
   .comparison__table-wrap {
     order: 2;
-    margin-inline: calc(-1 * var(--page-margin));
-    padding: var(--space-5) 0 var(--space-5) var(--page-margin);
+    padding: var(--space-5) var(--page-margin);
   }
 
   .comparison__table {

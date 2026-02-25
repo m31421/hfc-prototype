@@ -468,17 +468,33 @@
       margin-left: auto;
       margin-right: auto;
     }
+    /* Mobile-first: slider by default; grid from 1030px up */
     .why-choose__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 1rem;
       align-items: start;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 0.5rem;
+      margin-left: var(--page-margin, 1rem);
+      margin-right: calc(-1 * var(--page-margin, 1rem));
+      padding-left: 1.5rem;
+      padding-right: var(--page-margin, 1rem);
     }
+    .why-choose__grid::-webkit-scrollbar { display: none; }
     .why-choose__col {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.55s ease-out, transform 0.55s ease-out;
       text-align: left;
+      flex: 0 0 85%;
+      min-width: 0;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
     }
     .why-choose__grid.is-visible .why-choose__col {
       opacity: 1;
@@ -519,6 +535,29 @@
       line-height: 1.65;
       margin: 0.5rem 0 0;
     }
+    .why-choose__pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .why-choose__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--utility-grey-400, #9CA3AF);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 0.2s ease, background 0.2s ease, border-radius 0.2s ease;
+      flex-shrink: 0;
+    }
+    .why-choose__dot.is-active {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--color-headline, var(--utility-grey-800));
+    }
     @media (prefers-reduced-motion: reduce) {
       .why-choose__heading-wrap,
       .why-choose__col {
@@ -529,65 +568,32 @@
       .why-choose__heading-wrap.is-visible,
       .why-choose__grid.is-visible .why-choose__col { transform: none; }
     }
-    @media (min-width: 1030px) {
-      .why-choose__grid { grid-template-columns: repeat(4, 1fr); }
-    }
-    @media (min-width: 1030px) and (max-width: 1200px) {
-      .why-choose__grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
-      }
-    }
-    @media (max-width: 1029px) {
+    @media (max-width: 1199px) {
       .why-choose__intro { margin-bottom: 1.5rem; }
-      .why-choose__grid {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 1rem;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 0.5rem;
-        margin-left: var(--page-margin, 1rem);
-        margin-right: calc(-1 * var(--page-margin, 1rem));
-        padding-left: var(--page-margin, 1rem);
-        padding-right: var(--page-margin, 1rem);
-      }
-      .why-choose__grid::-webkit-scrollbar { display: none; }
-      .why-choose__col {
-        flex: 0 0 85%;
-        min-width: 0;
-        scroll-snap-align: start;
-        scroll-snap-stop: always;
-      }
       .why-choose__col:nth-child(n) { transition-delay: 0s; }
-      .why-choose__pagination {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.5rem;
-        margin-top: 1.5rem;
-      }
-      .why-choose__dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--utility-grey-400, #9CA3AF);
-        border: none;
-        padding: 0;
-        cursor: pointer;
-        transition: width 0.2s ease, background 0.2s ease, border-radius 0.2s ease;
-        flex-shrink: 0;
-      }
-      .why-choose__dot.is-active {
-        width: 24px;
-        border-radius: 4px;
-        background: var(--color-headline, var(--utility-grey-800));
-      }
     }
-    @media (min-width: 1030px) {
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .why-choose__col { flex: 0 0 48%; }
+    }
+    @media (min-width: 1200px) {
+      .why-choose__grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        overflow: visible;
+        scroll-snap-type: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+        padding-bottom: 0;
+      }
+      .why-choose__col {
+        flex: none;
+        min-width: unset;
+        scroll-snap-align: unset;
+        scroll-snap-stop: unset;
+      }
       .why-choose__pagination { display: none; }
     }
   </style>
@@ -618,9 +624,9 @@
       margin: 0;
       line-height: var(--lh-relaxed);
     }
-    /* This page has 7 accordion items */
+    /* This page has 6 accordion items */
     #feature-hero-blinds .feature-hero__accordion {
-      grid-template-rows: repeat(7, auto);
+      grid-template-rows: repeat(6, auto);
     }
   </style>
 </head>
@@ -1090,7 +1096,10 @@
         <source src="assets/videos/blinds.webm" type="video/webm">
       </video>
       <div class="feature-hero__bg" data-image="5" data-desktop-image="assets/images/features-module/durability.png" data-mobile-image="assets/images/features-module/durability.png"></div>
-      <div class="feature-hero__bg" data-image="6" data-desktop-image="assets/images/features-module/smarthome.png" data-mobile-image="assets/images/features-module/smarthome.png"></div>
+      <div class="feature-hero__bg" data-image="6"></div>
+      <video class="feature-hero__bg-video" data-feature="6" autoplay muted loop playsinline aria-hidden="true">
+        <source src="assets/videos/smarthome.webm" type="video/webm">
+      </video>
       <div class="feature-hero__bg" data-image="7" data-desktop-image="assets/images/features-module/personalized.png" data-mobile-image="assets/images/features-module/personalized.png"></div>
     </div>
     <div class="container feature-hero__container">
@@ -1108,7 +1117,7 @@
           </button>
           <div class="feature-accordion-item__content open">
             <div>
-              <p>Block out light for better sleep, movie viewing, or privacy. Room darkening blinds and shades help you control how much light enters your space.</p>
+              <p>Window coverings can control light, privacy, and how your space feels. That's why we offer custom features for blinds like room darkening and motorization to suit your needs.</p>
             </div>
           </div>
         </div>
@@ -1125,7 +1134,7 @@
           </button>
           <div class="feature-accordion-item__content">
             <div>
-              <p>Ideal for bathrooms, kitchens, and high-humidity areas. Moisture-resistant materials resist warping and wear so your blinds look and perform great over time.</p>
+              <p>Ideal for bathrooms and kitchens, our moisture-resistant blinds are designed to withstand humidity and prevent warping.</p>
             </div>
           </div>
         </div>
@@ -1142,7 +1151,7 @@
           </button>
           <div class="feature-accordion-item__content">
             <div>
-              <p>Cordless and motorized options eliminate dangling cords for a safer home. Perfect for families with children and pets.</p>
+              <p>Ensure a safer environment for children and pets with our sleek, cordless custom blinds, eliminating the risk of entanglement.</p>
             </div>
           </div>
         </div>
@@ -1159,7 +1168,7 @@
           </button>
           <div class="feature-accordion-item__content">
             <div>
-              <p>Adjust your blinds and shades with the touch of a button or from your phone. Motorization adds convenience and works for hard-to-reach windows.</p>
+              <p>Effortlessly adjust your blinds with the touch of a button using our motorized options, offering convenience and modern style.</p>
             </div>
           </div>
         </div>
@@ -1193,24 +1202,7 @@
           </button>
           <div class="feature-accordion-item__content">
             <div>
-              <p>Connect your motorized shades to Alexa, Google Home, Apple HomeKit, or other smart home systems for voice and app control.</p>
-            </div>
-          </div>
-        </div>
-        <div class="feature-accordion-item" data-feature="7">
-          <button class="feature-accordion-item__header" aria-expanded="false">
-            <div class="feature-accordion-item__title">
-              <span class="feature-accordion-item__number">07</span>
-              <span class="feature-accordion-item__label">Personalized By Room</span>
-            </div>
-            <span class="feature-accordion-item__icon" aria-hidden="true">
-              <img src="assets/images/plus.svg" alt="" class="feature-accordion-item__icon-plus">
-              <img src="assets/images/minus.svg" alt="" class="feature-accordion-item__icon-minus">
-            </span>
-          </button>
-          <div class="feature-accordion-item__content">
-            <div>
-              <p>Choose different styles, materials, and features for each room. We help you create a custom solution that fits every space.</p>
+              <p>Seamlessly integrate custom window blinds with your current smart home systems, allowing for voice control and automation through platforms like Alexa, Google Home, and Apple.</p>
             </div>
           </div>
         </div>
