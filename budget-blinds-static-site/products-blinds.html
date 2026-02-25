@@ -1030,8 +1030,7 @@
       <div class="pricing-module__heading-wrap" data-animate>
         <div class="pricing-module__heading">
           <h2 id="pricing-module-heading" class="pricing-module__title">Window Blinds for Every Budget</h2>
-          <p class="pricing-module__intro">Find the perfect fit for your home and your budget. We offer a wide range of styles and materials to match any décor.</p>
-          <p class="pricing-module__intro">Quality craftsmanship and expert installation are included—so you get lasting value at a price that works for you.</p>
+          <p class="pricing-module__intro">Custom window blinds are available in a range of materials and styles to suit your home, your needs, and your investment.</p>
           <p class="pricing-module__disclaimer">Pricing varies by size, material, and installation. These ranges are for guidance only.</p>
         </div>
       </div>
@@ -1455,6 +1454,178 @@
       </div>
     </div>
   </section>
+
+  <!-- Promotional CTA Banner Module -->
+  <style>
+    .promo-cta-banner {
+      --promo-bg: #EBF2F3;
+      padding: var(--page-margin, 1.5rem) 0;
+    }
+    .promo-cta-banner__inner {
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 var(--page-margin, 1.5rem);
+    }
+    .promo-cta-banner__card {
+      background-color: var(--promo-bg);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      min-height: 340px;
+      display: flex;
+      flex-direction: row;
+      gap: 0;
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+    .promo-cta-banner__card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .promo-cta-banner__card {
+        transform: none;
+        transition: opacity 0.15s ease-out;
+      }
+      .promo-cta-banner__card.is-visible {
+        transform: none;
+      }
+    }
+    .promo-cta-banner__content {
+      width: 52%;
+      padding: var(--space-12) 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+    .promo-cta-banner__heading {
+      font-family: var(--font-display);
+      font-size: var(--h3-size);
+      font-weight: var(--weight-bold);
+      color: var(--color-headline);
+      line-height: var(--lh-tight);
+      margin: 0 0 var(--space-4);
+    }
+    .promo-cta-banner__copy {
+      font-family: var(--font-body);
+      font-size: var(--body-lg);
+      line-height: var(--lh-relaxed);
+      color: var(--color-body);
+      margin: 0 0 1.8rem;
+    }
+    /* Ghost CTA: only override color/border for teal outline; rest from global .btn */
+    .promo-cta-banner__btn.btn {
+      align-self: flex-start;
+      background: transparent;
+      border: 2px solid var(--color-headline);
+      color: var(--color-headline);
+      font-family: var(--font-body);
+      font-size: var(--body-lg);
+      font-weight: var(--weight-normal);
+      transition: background-color var(--dur-fast) var(--ease-standard), color var(--dur-fast) var(--ease-standard);
+    }
+    .promo-cta-banner__btn.btn:hover {
+      background-color: var(--color-headline);
+      color: var(--primary-white);
+    }
+    .promo-cta-banner__arrow {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
+      background-color: #497B94;
+      -webkit-mask: url('assets/images/Icons-rightarrow-carat.svg') no-repeat center / contain;
+      mask: url('assets/images/Icons-rightarrow-carat.svg') no-repeat center / contain;
+    }
+    .promo-cta-banner__btn.btn:hover .promo-cta-banner__arrow {
+      background-color: var(--primary-white);
+    }
+    .promo-cta-banner__media {
+      width: 48%;
+      position: relative;
+      overflow: hidden;
+      min-height: 340px;
+    }
+    .promo-cta-banner__img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 80px 8px 8px 0;
+    }
+    @media (max-width: 900px) {
+      .promo-cta-banner__card {
+        min-height: 300px;
+      }
+      .promo-cta-banner__content {
+        padding: 2rem;
+      }
+      .promo-cta-banner__heading {
+        font-size: clamp(1.5rem, 3vw, 1.6rem);
+      }
+      .promo-cta-banner__img {
+        border-radius: 80px 8px 8px 0;
+      }
+    }
+    @media (max-width: 649px) {
+      .promo-cta-banner__card {
+        flex-direction: column;
+        min-height: 0;
+      }
+      .promo-cta-banner__content {
+        width: 100%;
+        padding: 2rem 1.5rem;
+      }
+      .promo-cta-banner__heading {
+        font-size: var(--h4-size);
+      }
+      .promo-cta-banner__btn.btn {
+        width: 100%;
+        justify-content: center;
+      }
+      .promo-cta-banner__media {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        flex-shrink: 0;
+      }
+      .promo-cta-banner__img {
+        border-radius: 80px 8px 0 0;
+        height: 100%;
+      }
+    }
+  </style>
+  <section class="promo-cta-banner" aria-labelledby="promo-cta-heading">
+    <div class="promo-cta-banner__inner">
+      <div class="promo-cta-banner__card" id="promo-cta-card">
+        <div class="promo-cta-banner__content">
+          <h3 id="promo-cta-heading" class="promo-cta-banner__heading">Bring Your Windows to Life</h3>
+          <p class="promo-cta-banner__copy">Connect with a local design expert to explore custom blinds made for your home.</p>
+          <a href="#" class="btn promo-cta-banner__btn">Get started <span class="btn__icon promo-cta-banner__arrow" aria-hidden="true"></span></a>
+        </div>
+        <div class="promo-cta-banner__media">
+          <img src="assets/images/blinds/cta-image.png" alt="" class="promo-cta-banner__img" width="700" height="400" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    (function() {
+      var card = document.getElementById('promo-cta-card');
+      if (!card) return;
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.disconnect();
+        });
+      }, { threshold: 0.15 });
+      observer.observe(card);
+    })();
+  </script>
+
   <script>
     (function() {
       var faq = document.getElementById('faq');
