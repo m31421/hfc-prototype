@@ -1082,19 +1082,19 @@
   <!-- Feature Accordion Hero (copy for blinds page – update content and images as needed) -->
   <section class="feature-hero" id="feature-hero-blinds">
     <div class="feature-hero__backgrounds">
-      <div class="feature-hero__bg" data-image="1" data-desktop-image="assets/images/features-module/room-darkening.png" data-mobile-image="assets/images/features-module/room-darkening.png"></div>
-      <div class="feature-hero__bg" data-image="2" data-desktop-image="assets/images/features-module/moisture-resistant.png" data-mobile-image="assets/images/features-module/moisture-resistant.png"></div>
-      <div class="feature-hero__bg" data-image="3" data-desktop-image="assets/images/features-module/cordless.png" data-mobile-image="assets/images/features-module/cordless.png"></div>
+      <div class="feature-hero__bg" data-image="1" data-desktop-image="assets/images/features-module/room-darkening.png" data-mobile-image="assets/images/blinds/gallery/01.png"></div>
+      <div class="feature-hero__bg" data-image="2" data-desktop-image="assets/images/features-module/moisture-resistant.png" data-mobile-image="assets/images/blinds/gallery/02.png"></div>
+      <div class="feature-hero__bg" data-image="3" data-desktop-image="assets/images/features-module/cordless.png" data-mobile-image="assets/images/blinds/gallery/03.png"></div>
       <div class="feature-hero__bg" data-image="4"></div>
       <video class="feature-hero__bg-video" data-feature="4" autoplay muted loop playsinline aria-hidden="true">
         <source src="assets/videos/blinds.webm" type="video/webm">
       </video>
-      <div class="feature-hero__bg" data-image="5" data-desktop-image="assets/images/features-module/durability.png" data-mobile-image="assets/images/features-module/durability.png"></div>
+      <div class="feature-hero__bg" data-image="5" data-desktop-image="assets/images/features-module/durability.png" data-mobile-image="assets/images/blinds/gallery/05.png"></div>
       <div class="feature-hero__bg" data-image="6"></div>
       <video class="feature-hero__bg-video" data-feature="6" autoplay muted loop playsinline aria-hidden="true">
         <source src="assets/videos/smarthome.webm" type="video/webm">
       </video>
-      <div class="feature-hero__bg" data-image="7" data-desktop-image="assets/images/features-module/personalized.png" data-mobile-image="assets/images/features-module/personalized.png"></div>
+      <div class="feature-hero__bg" data-image="7" data-desktop-image="assets/images/features-module/personalized.png" data-mobile-image="assets/images/blinds/gallery/06.png"></div>
     </div>
     <div class="container feature-hero__container">
       <div class="feature-hero__accordion">
@@ -1246,6 +1246,254 @@
         <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 2" data-index="1"></button>
         <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 3" data-index="2"></button>
         <button type="button" class="why-choose__dot" role="tab" aria-selected="false" aria-label="Slide 4" data-index="3"></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Badges section -->
+  <style>
+    .trust-badges {
+      width: 100%;
+      background: #EBF2F3;
+      padding: clamp(3rem, 6vw, 5rem) var(--page-margin, 1.5rem);
+      box-sizing: border-box;
+    }
+    .trust-badges__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(2rem, 4vw, 3rem);
+    }
+    .trust-badges__headline {
+      text-align: center;
+    }
+    .trust-badges__title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(1.75rem, 4.5vw, 3rem);
+      font-weight: 400;
+      color: #497B94;
+      margin: 0 0 0.75rem;
+      line-height: 1.2;
+    }
+    .trust-badges__subhead {
+      font-size: clamp(1rem, 2vw, 1.125rem);
+      font-weight: 400;
+      color: var(--utility-grey-600);
+      margin: 0;
+      line-height: 1.4;
+      max-width: 42ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .trust-badges__cta {
+      text-decoration: none;
+    }
+    .trust-badges__grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      width: 100%;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .trust-badges__card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      box-sizing: border-box;
+    }
+    .trust-badges__badge-img-wrap {
+      width: 148px;
+      height: 148px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      padding: 0;
+    }
+    .trust-badges__badge-img {
+      width: 148px;
+      height: 148px;
+      object-fit: contain;
+    }
+    .trust-badges__card-title {
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--color-headline, var(--utility-grey-800));
+      margin: 0;
+      line-height: 1.3;
+    }
+    .trust-badges__card-desc {
+      font-size: 0.9375rem;
+      color: var(--utility-grey-600);
+      line-height: 1.5;
+      margin: 0;
+    }
+    .trust-badges__slider-wrap {
+      display: none;
+      width: 100%;
+      overflow: hidden;
+    }
+    .trust-badges__slider {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding: 0 16px;
+      margin: 0 -16px;
+    }
+    .trust-badges__slider::-webkit-scrollbar {
+      display: none;
+    }
+    .trust-badges__slide {
+      flex: 0 0 calc(100% - 32px);
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+      min-width: 0;
+      box-sizing: border-box;
+    }
+    .trust-badges__pagination {
+      display: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .trust-badges__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--utility-grey-400, #9CA3AF);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: width 0.2s ease, background 0.2s ease, border-radius 0.2s ease;
+    }
+    .trust-badges__dot.is-active {
+      width: 24px;
+      border-radius: 4px;
+      background: var(--color-headline, var(--utility-grey-800));
+    }
+    @media (max-width: 768px) {
+      .trust-badges__grid {
+        display: none;
+      }
+      .trust-badges__slider-wrap {
+        display: block;
+      }
+      .trust-badges__pagination {
+        display: flex;
+      }
+    }
+    @media (min-width: 769px) {
+      .trust-badges__card {
+        padding: 20px;
+      }
+      .trust-badges__slider-wrap,
+      .trust-badges__pagination {
+        display: none !important;
+      }
+    }
+  </style>
+  <section class="trust-badges section" id="trust-badges" aria-labelledby="trust-badges-heading">
+    <div class="trust-badges__inner">
+      <div class="trust-badges__headline">
+        <h2 id="trust-badges-heading" class="trust-badges__title">Ready to See How Beautiful Blinds Can Be?</h2>
+        <p class="trust-badges__subhead">From consultation to final install, we make it simple and stress-free.</p>
+      </div>
+      <a href="index.html#consultation" class="btn trust-badges__cta">
+        Schedule a Free Consultation
+        <img src="assets/images/Icons-rightarrow-carat.svg" alt="" class="btn__icon" width="15" height="15">
+      </a>
+      <ul class="trust-badges__grid" aria-label="Trust badges">
+        <li class="trust-badges__card">
+          <div class="trust-badges__badge-img-wrap">
+            <img src="assets/images/blinds/badges/30years.png" alt="30 years of service" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+          </div>
+          <h3 class="trust-badges__card-title">30 Years of Service</h3>
+          <p class="trust-badges__card-desc">With more than 30 years of experience in custom window treatments, Budget Blinds combines design expertise with a commitment to exceptional service.</p>
+        </li>
+        <li class="trust-badges__card">
+          <div class="trust-badges__badge-img-wrap">
+            <img src="assets/images/blinds/badges/local.png" alt="Locally owned and operated" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+          </div>
+          <h3 class="trust-badges__card-title">Locally Owned and Operated</h3>
+          <p class="trust-badges__card-desc">Your local Budget Blinds team brings personalized design expertise directly to your home. We take the time to understand your style, your space, and how you live.</p>
+        </li>
+        <li class="trust-badges__card">
+          <div class="trust-badges__badge-img-wrap">
+            <img src="assets/images/blinds/badges/nationwide.png" alt="Nationwide trust" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+          </div>
+          <h3 class="trust-badges__card-title">Nationwide Trust</h3>
+          <p class="trust-badges__card-desc">Local design expertise, personalized service, and the support of a nationally recognized brand bring together the best of both worlds for your home.</p>
+        </li>
+        <li class="trust-badges__card">
+          <div class="trust-badges__badge-img-wrap">
+            <img src="assets/images/blinds/badges/warranty.png" alt="No-questions-asked warranty" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+          </div>
+          <h3 class="trust-badges__card-title">No-Questions-Asked Warranty</h3>
+          <p class="trust-badges__card-desc">Enjoy added peace of mind with our exclusive warranty, included at no additional cost on most new window treatments. Learn more about our warranty.</p>
+        </li>
+      </ul>
+      <div class="trust-badges__slider-wrap" id="trust-badges-slider-wrap">
+        <div class="trust-badges__slider" id="trust-badges-slider" role="region" aria-label="Trust badges carousel">
+          <div class="trust-badges__slide">
+            <div class="trust-badges__card">
+              <div class="trust-badges__badge-img-wrap">
+                <img src="assets/images/blinds/badges/30years.png" alt="30 years of service" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+              </div>
+              <h3 class="trust-badges__card-title">30 Years of Service</h3>
+              <p class="trust-badges__card-desc">With more than 30 years of experience in custom window treatments, Budget Blinds combines design expertise with a commitment to exceptional service.</p>
+            </div>
+          </div>
+          <div class="trust-badges__slide">
+            <div class="trust-badges__card">
+              <div class="trust-badges__badge-img-wrap">
+                <img src="assets/images/blinds/badges/local.png" alt="Locally owned and operated" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+              </div>
+              <h3 class="trust-badges__card-title">Locally Owned and Operated</h3>
+              <p class="trust-badges__card-desc">Your local Budget Blinds team brings personalized design expertise directly to your home. We take the time to understand your style, your space, and how you live.</p>
+            </div>
+          </div>
+          <div class="trust-badges__slide">
+            <div class="trust-badges__card">
+              <div class="trust-badges__badge-img-wrap">
+                <img src="assets/images/blinds/badges/nationwide.png" alt="Nationwide trust" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+              </div>
+              <h3 class="trust-badges__card-title">Nationwide Trust</h3>
+              <p class="trust-badges__card-desc">Local design expertise, personalized service, and the support of a nationally recognized brand bring together the best of both worlds for your home.</p>
+            </div>
+          </div>
+          <div class="trust-badges__slide">
+            <div class="trust-badges__card">
+              <div class="trust-badges__badge-img-wrap">
+                <img src="assets/images/blinds/badges/warranty.png" alt="No-questions-asked warranty" class="trust-badges__badge-img" width="148" height="148" loading="lazy">
+              </div>
+              <h3 class="trust-badges__card-title">No-Questions-Asked Warranty</h3>
+              <p class="trust-badges__card-desc">Enjoy added peace of mind with our exclusive warranty, included at no additional cost on most new window treatments. Learn more about our warranty.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="trust-badges__pagination" id="trust-badges-dots" role="tablist" aria-label="Trust badges slide navigation">
+        <button type="button" class="trust-badges__dot is-active" role="tab" aria-selected="true" aria-label="Badge 1" data-index="0"></button>
+        <button type="button" class="trust-badges__dot" role="tab" aria-selected="false" aria-label="Badge 2" data-index="1"></button>
+        <button type="button" class="trust-badges__dot" role="tab" aria-selected="false" aria-label="Badge 3" data-index="2"></button>
+        <button type="button" class="trust-badges__dot" role="tab" aria-selected="false" aria-label="Badge 4" data-index="3"></button>
       </div>
     </div>
   </section>
@@ -1502,10 +1750,10 @@
       box-sizing: border-box;
     }
     .promo-cta-banner__heading {
-      font-family: var(--font-display);
-      font-size: var(--h3-size);
-      font-weight: var(--weight-bold);
-      color: var(--color-headline);
+      font-family: var(--font-display, 'DM Serif Text', Georgia, serif);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--color-headline, var(--utility-grey-800));
       line-height: var(--lh-tight);
       margin: 0 0 var(--space-4);
     }
@@ -1564,7 +1812,7 @@
         padding: 2rem;
       }
       .promo-cta-banner__heading {
-        font-size: clamp(1.5rem, 3vw, 1.6rem);
+        font-size: clamp(1.5rem, 3.5vw, 2rem);
       }
       .promo-cta-banner__img {
         border-radius: 80px 8px 8px 0;
@@ -1580,7 +1828,7 @@
         padding: 2rem 1.5rem;
       }
       .promo-cta-banner__heading {
-        font-size: var(--h4-size);
+        font-size: clamp(1.35rem, 4vw, 1.75rem);
       }
       .promo-cta-banner__btn.btn {
         width: 100%;
@@ -1695,6 +1943,41 @@
       function goToSlide(index) {
         var cardWidth = cols[0] ? cols[0].offsetWidth + 16 : slider.offsetWidth;
         slider.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+      }
+      slider.addEventListener('scroll', function() { updateDots(); });
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          var i = parseInt(dot.getAttribute('data-index'), 10);
+          if (!isNaN(i)) goToSlide(i);
+        });
+      });
+      var ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(updateDots) : null;
+      if (ro) ro.observe(slider);
+    })();
+  </script>
+
+  <script>
+    (function() {
+      var slider = document.getElementById('trust-badges-slider');
+      var dotsContainer = document.getElementById('trust-badges-dots');
+      if (!slider || !dotsContainer) return;
+      var dots = dotsContainer.querySelectorAll('.trust-badges__dot');
+      var slides = slider.querySelectorAll('.trust-badges__slide');
+      var gap = 20;
+      function updateDots() {
+        var scrollLeft = slider.scrollLeft;
+        var containerWidth = slider.offsetWidth;
+        var slideWidth = containerWidth - 32;
+        var index = Math.round(scrollLeft / (slideWidth + gap));
+        index = Math.max(0, Math.min(index, slides.length - 1));
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('is-active', i === index);
+          dot.setAttribute('aria-selected', i === index);
+        });
+      }
+      function goToSlide(index) {
+        var slideWidth = slider.offsetWidth - 32;
+        slider.scrollTo({ left: index * (slideWidth + gap), behavior: 'smooth' });
       }
       slider.addEventListener('scroll', function() { updateDots(); });
       dots.forEach(function(dot) {

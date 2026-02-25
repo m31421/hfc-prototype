@@ -12,12 +12,16 @@
     var videos = hero.querySelectorAll('.feature-hero__bg-video');
     var mobileMatch = window.matchMedia('(max-width: 1029px)');
 
-    function preloadImages() {
+    function getImageForBg(bg) {
       var isMobile = mobileMatch.matches;
+      var desktopImage = bg.getAttribute('data-desktop-image');
+      var mobileImage = bg.getAttribute('data-mobile-image');
+      return (isMobile && mobileImage) ? mobileImage : desktopImage;
+    }
+
+    function preloadImages() {
       backgrounds.forEach(function(bg) {
-        var desktopImage = bg.getAttribute('data-desktop-image');
-        var mobileImage = bg.getAttribute('data-mobile-image');
-        var targetImage = isMobile && mobileImage ? mobileImage : desktopImage;
+        var targetImage = getImageForBg(bg);
         if (targetImage) {
           bg.style.backgroundImage = "url('" + targetImage + "')";
           var img = new Image();
@@ -54,9 +58,9 @@
 
       var targetBg = hero.querySelector('.feature-hero__bg[data-image="' + featureNumber + '"]');
       if (targetBg) {
-        var desktopImage = targetBg.getAttribute('data-desktop-image');
-        if (desktopImage && !targetBg.style.backgroundImage) {
-          targetBg.style.backgroundImage = "url('" + desktopImage + "')";
+        var targetImage = getImageForBg(targetBg);
+        if (targetImage) {
+          targetBg.style.backgroundImage = "url('" + targetImage + "')";
         }
         targetBg.classList.add('active');
       }
@@ -77,9 +81,9 @@
       });
       var firstBg = hero.querySelector('.feature-hero__bg[data-image="1"]');
       if (firstBg) {
-        var desktopImage = firstBg.getAttribute('data-desktop-image');
-        if (desktopImage && !firstBg.style.backgroundImage) {
-          firstBg.style.backgroundImage = "url('" + desktopImage + "')";
+        var targetImage = getImageForBg(firstBg);
+        if (targetImage) {
+          firstBg.style.backgroundImage = "url('" + targetImage + "')";
         }
         firstBg.classList.add('active');
       }
@@ -98,7 +102,11 @@
     }
 
     preloadImages();
-    mobileMatch.addListener(preloadImages);
+    if (mobileMatch.addEventListener) {
+      mobileMatch.addEventListener('change', preloadImages);
+    } else if (mobileMatch.addListener) {
+      mobileMatch.addListener(preloadImages);
+    }
 
     var firstOpen = hero.querySelector('.feature-accordion-item__content.open');
     if (firstOpen) {
