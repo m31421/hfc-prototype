@@ -3369,7 +3369,9 @@ bb-text-section {
 
   .comparison__table-wrap {
     order: 2;
+    border-radius: 10px 0 0 10px;
     padding: var(--space-5) var(--page-margin);
+    margin-right: -20px;
   }
 
   .comparison__table {
